@@ -1,3 +1,7 @@
+/* testing */
+*{
+  background-color: rgb(192, 192, 192);
+}
 .star {
   stroke: gray;      /* outline */
   fill: none;        /* empty star */
@@ -12,3 +16,4 @@
   stroke: gold;
   fill: gold;        /* filled star */
 }
+

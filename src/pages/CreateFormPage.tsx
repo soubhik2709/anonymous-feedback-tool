@@ -2,22 +2,24 @@ import { useState } from "react";
 import { Star } from "lucide-react";
 import "../styles/pages/create-form.css";
 
-type FormType = {
-  id: number;
-  Title: string;
-  Description: string;
-};
-
 type QuestionType = "radio" | "yesno" | "rating" | "text";
+
 type Question = {
   id: number;
   type: QuestionType;
   question: string;
   option: string[] | number[] | string;
 };
+
 type Answer = {
   quesId: number;
   answer: string | number;
+};
+
+type FormType = {
+  id: number;
+  Title: string;
+  Description: string;
 };
 
 export default function CreateFormPage() {
@@ -26,18 +28,18 @@ export default function CreateFormPage() {
     Title: "",
     Description: "",
   });
-  const [question, setQuestion] = useState<Question[]>([]); //why write [] after question?
+  const [question, setQuestion] = useState<Question[]>([]);
   const [answer, setAnswer] = useState<Answer[]>([]);
 
-  function handleFormChange(field: string, value: string) {
+  const handleFormChange = (field: string, value: string) => {
     //why dont i give return type?
     setFormDetails((prev) => ({
       ...prev,
       [field]: value,
     }));
-  }
+  };
 
-  function AddQuestion(type: QuestionType) {
+  const AddQuestion = (type: QuestionType) => {
     setQuestion((prev) => [
       ...prev,
       {
@@ -54,7 +56,7 @@ export default function CreateFormPage() {
                 : "",
       },
     ]);
-  }
+  };
 
   const handleQuestionChange = (value: string, id: number) => {
     //why any return type not write?
@@ -118,204 +120,168 @@ export default function CreateFormPage() {
     setAnswer((answer) => answer.filter((a) => a.quesId !== id));
   };
 
-  const handleSubmit = () => {
-    const mergedData = question.map((q) => {
-      const userAnswer = answer.find((a) => a.quesId === q.id); //if id match, find return the obj
+const getAnswer = (id:number)=> answer.find((a)=>a.quesId === id)?.answer ?? "";
 
-      return {
-        quesId: q.id,
+  const handleSubmit = () => {
+  const mergedData = question.map((q)=>({
+       quesId: q.id,
         question: q.question,
         type: q.type,
         options: q.option || [],
-        answer: userAnswer?.answer || null,
-      };
-    });
+        answer: getAnswer(q.id) || null,
+  }));
 
-    console.log(mergedData);
-
-    // send to backend
+  console.log(mergedData);
+  // send to backend
     // fetch("/api/submit", { method: "POST", body: JSON.stringify(mergedData) })
   };
 
+
+
   return (
-    <div>
-      {/* Form Details preview */}
-      <div>
-        <p>
-          <strong>Form details</strong>
-        </p>
-        <p>Form title</p>
-        <input
-          placeholder="e.g. Team feedback — Q2 2025"
-          value={formDetails.Title}
-          onChange={(e) => handleFormChange("Title", e.target.value)} //why i dont have to write e type? when need to write?
-        />
-        <p>Description </p>
-        <input
-          placeholder="Short note shown to responders..."
-          value={formDetails.Description}
-          onChange={(e) => handleFormChange("Description", e.target.value)}
-        />
-      </div>
+    <div className="page">
 
-      {/* question Section */}
-      <p>
-        <strong>Question</strong>
-      </p>
-
-      {/* question */}
-      {question.map((q) => (
-        <div key={q.id}>
-          <p>Q.{q.question}</p>
-
+      {/* LEFT PANEL*/}
+      <div className="panel-left">
+        {/* Form Details */}
+        <section className="form-details">
+          <h2>Form details</h2>
+          <label>Form title</label>
           <input
-            key={q.id}
-            placeholder="Enter question"
-            value={q.question}
-            type="text"
-            onChange={(e) => {
-              handleQuestionChange(e.target.value, q.id);
-            }}
+            placeholder="e.g. Team feedback — Q2 2025"
+            value={formDetails.Title}
+            onChange={(e) => handleFormChange("Title", e.target.value)} //why i dont have to write e type? when need to write?
           />
-          {/* option Input */}
-          {q.type === "radio" &&
-            Array.isArray(q.option) && ( //what is Array.isArray do?
-              <div>
-                {(q.option as string[]).map(
+
+          <label>Description(optional)</label>
+          <input
+            placeholder="Short note shown to responders..."
+            value={formDetails.Description}
+            onChange={(e) => handleFormChange("Description", e.target.value)}
+          />
+        </section>
+
+        {/* question Section */}
+
+        <section className="question-list">
+          <h2>Questions</h2>
+          {/* question */}
+          {question.map((q) => (
+            <div key={q.id} className="question-card">
+              <span className="question-type-badge">{q.question}</span>
+              <input
+                key={q.id}
+                placeholder="Enter question"
+                value={q.question}
+                // type="text"
+                onChange={(e) => {
+                  handleQuestionChange(e.target.value, q.id);
+                }}
+              />
+              {/* options Input */}
+              {q.type === "radio" &&
+                Array.isArray(q.option) &&
+                (q.option as string[]).map(
                   (
                     opt,
                     index, //why i dont need to write here opt:string,index:number ?
                   ) => (
-                    <div key={index}>
-                      <input
-                        value={opt}
-                        placeholder={`Your option ${index + 1}`}
-                        onChange={(e) =>
-                          handleOptionChange(e.target.value, q.id, index)
-                        }
-                      />
-                      <br />
-                    </div>
-                  ),
-                )}
-              </div>
-            )}
-          <br />
-          <button onClick={() => handleDeleteQue(q.id)}>Delete</button>
-        </div>
-      ))}
-
-      {/*Preview  */}
-      <div>
-        <p>Title<strong>{formDetails.Title || "Untitled Form"}</strong></p>
-        <p>Description<strong>{formDetails.Description || "No description yet"}</strong></p>
-      </div>
-      <p>
-        <strong>Preview</strong>
-      </p>
-
-      {question.map((q) => {
-        const selected = Number(
-          answer.find((a) => a.quesId === q.id)?.answer ?? 0,
-        ); //what  is ??  why i converted into Number? why change to ?? from || ? que:1
-
-        return (
-          <div key={q.id}>
-            {/* question show here */}
-            <p>Q. {q.question}</p>
-
-            {/* MCQ */}
-            {q.type === "radio" &&
-              Array.isArray(q.option) && //how array.isArray solve my question?
-              q.option.map(
-                (
-                  opt,
-                  index, //opt is ONE item from the options array
-                ) => (
-                  <div key={index}>
                     <input
                       key={index}
-                      type="radio"
-                      name={`q${q.id}`}
-                      id={`q${q.id}_opt${index}`}
-                      checked={
-                        answer.find((a) => a.quesId === q.id)?.answer === opt
-                      } //how can  i use selected here?
-                      // checked = {selected === opt}//is it correct? ques 2
-
-                      onChange={() => {
-                        handleAnswerChange(String(opt), q.id);
-                      }}
-                    />
-                    <label htmlFor={`q${q.id}_opt${index}`}>
-                      {opt || `option${index + 1}`}
-                    </label>
-                    <br />
-                  </div>
-                ),
-              )}
-
-            {/* Yes or No  */}
-            {q.type === "yesno" && Array.isArray(q.option) && (
-              <div>
-                {q.option.map((opt, index) => (
-                  <div key={index}>
-                    <input
-                      id={`q${q.id}_${opt}`} // connect with label
-                      type="radio"
-                      name={`q${q.id}`}
                       value={opt}
-                      checked={
-                        answer.find((a) => a.quesId === q.id)?.answer === opt
-                      } //use selected variable  here
-                      onChange={() => handleAnswerChange(String(opt), q.id)} //why i dont do here? string(opt)
+                      placeholder={`Your option ${index + 1}`}
+                      onChange={(e) =>
+                        handleOptionChange(e.target.value, q.id, index)
+                      }
                     />
+                  ),
+                )}
 
-                    <label htmlFor={`q${q.id}_${opt}`}>{opt}</label>
-                    <br />
-                  </div>
-                ))}
-              </div>
-            )}
+              <button onClick={() => handleDeleteQue(q.id)}>Delete</button>
+            </div>
+          ))}
+        </section>
 
-            {/* text */}
-            {q.type === "text" && ( // Array.isArray(q.option) && why not uses?
-              <input
-                type="text"
-                value={answer.find((a) => a.quesId === q.id)?.answer || ""}
-                onChange={(e) => handleAnswerChange(e.target.value, q.id)}
-                placeholder="Write your answer"
-              />
-            )}
+        {/* buttons */}
+        <section className="add-question">
+          <button onClick={() => AddQuestion("text")}>+ Text</button>
+          <button onClick={() => AddQuestion("rating")}>+ Rating</button>
+          <button onClick={() => AddQuestion("radio")}>+ Multiple choice</button>
+          <button onClick={() => AddQuestion("yesno")}>+ Yes/No</button>
+        </section>
 
-            {/* Rating */}
-            {q.type === "rating" &&
-              Array.isArray(q.option) &&
-              q.option.map(
-                (
-                  r, //r is each item.
-                ) => (
-                  <Star
-                    key={`q${q.id}_${r}`}
-                    onClick={() => handleAnswerChange(String(r), q.id)} //i think this is not string, this could be number?
-                    className={
-                      Number(r) <= Number(selected) ? "star active" : "star"
-                    }
-                  />
-                ),
+
+      </div>
+
+      {/* --------------------------------------------------------------- */}
+
+      {/* --RIGHT PANEL (Live Preview)  */}
+      <div  className="panel-right">
+        <h2>Live preview</h2>
+
+        <div className="preview-form">
+          <h3>{formDetails.Title ||  "Untitled Form"}</h3>
+          <p>{formDetails.Description }</p>
+
+          {question.map((q,i)=>(
+            <div  key={q.id} className="preview-question">
+              {/* question show here */}
+              <p>{i+1}.{q.question}</p>
+
+               {/* TEXT */}
+              {q.type === "text" && ( // Array.isArray(q.option) && why not uses?
+                <input
+                  type="text"
+                  value={answer.find((a) => a.quesId === q.id)?.answer || ""}
+                  onChange={(e) => handleAnswerChange(e.target.value, q.id)}
+                  placeholder="Type your answer here..."
+                />
               )}
-          </div>
-        );
-      })}
 
-      <button onClick={() => AddQuestion("radio")}>MCQ</button>
-      <button onClick={() => AddQuestion("yesno")}>Yes/No</button>
-      <button onClick={() => AddQuestion("text")}>Text</button>
-      <button onClick={() => AddQuestion("rating")}>Rating</button>
-      <button onClick={() => handleSubmit()}>Submit</button>
+              {/* RATING */}
+               {q.type === "rating" &&
+                Array.isArray(q.option) &&
+                q.option.map(
+                  (
+                    r, //r is each item.
+                  ) => (
+                    <Star
+                      key={`q${q.id}_${r}`}
+                      onClick={() => handleAnswerChange(String(r), q.id)} //i think this is not string, this could be number?
+                      className={
+                        Number(r) <= Number(getAnswer(q.id)) ? "star active" : "star"}
+                    />
+                  ),
+                )}
+
+              {/* MCQ & YES/NO */}
+              {(q.type === "radio" || q.type === "yesno") &&  
+              (q.option as string[]).map((opt,i)=>(
+                  <label key={i}>
+                    <input
+                    type="radio"
+                    name={`q${q.id}`}
+                    checked = {getAnswer(q.id)===opt}
+                    onChange={()=>handleAnswerChange(opt,q.id,)}
+                    />
+                  {opt || `option${i + 1}`}
+                  </label>
+                ))}
+
+            </div>
+          ))}
+            <button onClick={() => handleSubmit()}>Submit feedback</button>
+        </div>
+
+      </div>
     </div>
   );
 }
+
+
+
+
+
 
 /* 
 claudelink->
@@ -327,6 +293,10 @@ TODO-
 2.Do i need to add the project tilte and des in the main array for here question?
 
 -----------------------------------------------------
+        {question.map((q) => {
+          // const selected = Number( answer.find((a) => a.quesId === q.id)?.answer ?? 0,); //what  is ??  why i converted into Number? why change to ?? from || ? que:1
+
+
 ques 1:
  answer.find((a) => a.quesId === q.id)?.answer ?? 0,
         ); //what  is ??  why i converted into Number? why change to ?? from || ?
