@@ -1,0 +1,14 @@
+.star {
+  stroke: gray;      /* outline */
+  fill: none;        /* empty star */
+  cursor: pointer;
+  margin-right: 5px;
+  transition: 0.2s;
+  width: 15px;
+  height: 30px;
+}
+
+.star.active {
+  stroke: gold;
+  fill: gold;        /* filled star */
+}

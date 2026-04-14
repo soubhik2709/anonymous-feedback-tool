@@ -1,0 +1,12 @@
+.navbar{
+    display: flex;
+    border: .5px solid gray;
+    justify-content: space-around;
+}
+
+.navlist{
+display: flex;
+gap:10%;
+list-style:none;
+padding-inline: 10px;
+}

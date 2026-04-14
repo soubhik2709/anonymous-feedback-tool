@@ -1,0 +1,15 @@
+.footercontainer{
+    border: 1px solid green;
+height: 30px;
+padding: 5px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: 10px;
+}
+
+.footercontainer ul{
+display:flex;
+list-style: none;
+gap: 20px;
+}
