@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Star } from "lucide-react";
 import "../styles/pages/create-form.css";
+
+type FormType = {
+  id: number;
+  Title: string;
+  Description: string;
+};
+
 type QuestionType = "radio" | "yesno" | "rating" | "text";
 type Question = {
   id: number;
@@ -14,8 +21,21 @@ type Answer = {
 };
 
 export default function CreateFormPage() {
+  const [formDetails, setFormDetails] = useState<FormType>({
+    id: Date.now(),
+    Title: "",
+    Description: "",
+  });
   const [question, setQuestion] = useState<Question[]>([]); //why write [] after question?
   const [answer, setAnswer] = useState<Answer[]>([]);
+
+  function handleFormChange(field: string, value: string) {
+    //why dont i give return type?
+    setFormDetails((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  }
 
   function AddQuestion(type: QuestionType) {
     setQuestion((prev) => [
@@ -119,6 +139,26 @@ export default function CreateFormPage() {
 
   return (
     <div>
+      {/* Form Details preview */}
+      <div>
+        <p>
+          <strong>Form details</strong>
+        </p>
+        <p>Form title</p>
+        <input
+          placeholder="e.g. Team feedback — Q2 2025"
+          value={formDetails.Title}
+          onChange={(e) => handleFormChange("Title", e.target.value)} //why i dont have to write e type? when need to write?
+        />
+        <p>Description </p>
+        <input
+          placeholder="Short note shown to responders..."
+          value={formDetails.Description}
+          onChange={(e) => handleFormChange("Description", e.target.value)}
+        />
+      </div>
+
+      {/* question Section */}
       <p>
         <strong>Question</strong>
       </p>
@@ -166,6 +206,10 @@ export default function CreateFormPage() {
       ))}
 
       {/*Preview  */}
+      <div>
+        <p>Title<strong>{formDetails.Title || "Untitled Form"}</strong></p>
+        <p>Description<strong>{formDetails.Description || "No description yet"}</strong></p>
+      </div>
       <p>
         <strong>Preview</strong>
       </p>
@@ -277,10 +321,10 @@ export default function CreateFormPage() {
 claudelink->
 https://claude.ai/share/6f84fbe5-024f-4725-9675-f827a40392db
 https://claude.ai/share/c9526a08-2b6a-4fa7-a07d-d24af5b48401
----------------------------------------------------
+------------------------------------------------------------------------------------------------------
 TODO-
 1.add require * as true option for questions:
-2.
+2.Do i need to add the project tilte and des in the main array for here question?
 
 -----------------------------------------------------
 ques 1:
