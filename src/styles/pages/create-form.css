@@ -1,7 +1,7 @@
 /* testing */
 *{
   background-color: rgb(192, 192, 192);
-}
+}/* for testing */
 .star {
   stroke: gray;      /* outline */
   fill: none;        /* empty star */

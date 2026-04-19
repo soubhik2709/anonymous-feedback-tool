@@ -1,0 +1,29 @@
+/* Badge.module.css */
+.base {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Type-based styles */
+
+.mcq {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.yesno {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.text {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.rating {
+  background-color: #fef3c7;
+  color: #92400e;
+}
