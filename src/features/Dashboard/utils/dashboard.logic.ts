@@ -1,12 +1,16 @@
 //dashboard.logic.ts
 import { mockForm, mockResponses } from "../constant/dashboard.data";
 // mockStats
-
+type Answer = {
+  questionId: string;
+  value: string | number;
+  type: string;
+};
 export const findQuestion = (id: string) => {
   return mockForm.questions.find((q) => q.id === id)?.label;
 };
 
-export const findAnswer = (id: string) => {
+export const findAnswer = (id: string): Answer[] => {
   return (
     mockResponses
       //only look at completed response
@@ -15,18 +19,85 @@ export const findAnswer = (id: string) => {
       .flatMap((res) => res.answers)
       //only id answers i want
       .filter((ans) => ans.questionId === id)
-      .map((ans) => ans.value)
-)
+  );
 };
 
-export const calculateAverage = (values :(string|number)[]) => {
-const numbers = values.filter((val):val is number =>
-typeof val === "number");
-
-if (numbers.length === 0) return 0;
-const total = numbers.reduce((acc,curr)=> acc + curr,0);
-  return Number((total / numbers.length).toFixed(1));
+export const findTextAns = (answer: Answer[]): string[] => {
+  return answer
+    .map((ans) => ans.value)
+    .filter((val): val is string => typeof val === "string");
 };
+
+export const calculateAverage = (values: (string | number)[]) => {
+  const numbers = values.filter((val) => typeof val === "number");
+
+  if (numbers.length === 0) return 0;
+  const total = numbers.reduce((acc, curr) => acc + curr, 0);
+  return Number((total / numbers.length).toFixed(2));
+};
+
+export const calculateDistribution = (values: (string | number)[]) => {
+  const numbers = values.filter(
+    (val): val is number => typeof val === "number",
+  );
+
+  const result: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+  for (let num of numbers) {
+    // result[num] = (result[num] || 0) + 1; // one line code .question 3
+    if (result[num] !== undefined) {
+      result[num]++;
+    }
+  }
+
+  return result;
+};
+
+export const findMostAnswered = (distribution: Record<number, number>) => {
+  // i didnt define the Record , what is Record , then how this is possible? 5
+  let maxVotes = -1;
+  // let mostAnsweredRating = 0;
+  let result:number[]=[];
+
+  for (const [rating, count] of Object.entries(distribution)) {//4.Object.entries
+    const numRating = Number(rating);
+
+    if (count > maxVotes) {
+      maxVotes = count;
+      result = [numRating]; //reset for bigger number
+      // mostAnsweredRating = Number(rating);
+    }else if( count === maxVotes){
+      result.push(numRating);
+    }
+  }
+  return result;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -52,4 +123,24 @@ const total = numbers.reduce((acc,curr)=> acc + curr,0);
 
         // const answer_one =  mockResponses.map((obj)=>obj.answers.map((ans)=> (ans.questionId === id)?(ans.value):null))// this will give in original array format . so use flatmap 
 
+    ---------------------------------------------------------------------
+     3.result[num] = (result[num] || 0) + 1; // how runs?
+     JS always evaluates:
+     RIGHT SIDE FIRST → then assigns to LEFT SIDE
+     Right side = READ current value
+     Left side = WRITE new value
+
+ ----------------------------------------------------------------------
+4. How does Object.entries() work?
+In your code, you used Object.entries(distribution).
+
+An object like { 1: 5, 2: 10 } is hard to loop through directly.
+
+Object.entries() converts it into an Array of Arrays: [ ["1", 5], ["2", 10] ].
+
+This allows you to use the for...of loop and destructure the [rating, count] easily.
+---------------------------------------------------------------------------------
+5. i didnt define the Record , what is Record , then how this is possible? 
+Record is a built-in TypeScript Utility Type. You don't need to define it because TypeScript provides it automatically.
+It is a quick way to define an Object.
     */

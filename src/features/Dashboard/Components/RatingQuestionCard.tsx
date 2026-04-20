@@ -1,4 +1,4 @@
-import { findQuestion,findAnswer ,calculateAverage } from "../utils/dashboard.logic";
+import { findQuestion,findAnswer ,calculateAverage ,calculateDistribution,findMostAnswered } from "../utils/dashboard.logic";
 
 import { Badge } from "../../../components/ui/Badge";
 
@@ -6,25 +6,30 @@ type Props ={
     id:string;
 };
 
+
 export const RatingQuestionCard = ({id}:Props) =>{
 
     const label = findQuestion(id);
     const answers = findAnswer(id);
-    const avg =  calculateAverage(answers);
-    
-    // console.log("\n the answer is ",answers);
-    // console.log("\n the question is ",label);
+
+    const values = answers.map(ans =>ans.value);
+
+    const avg =  calculateAverage(values);
+    const rate = calculateDistribution(values);
+    console.log("The rate is",rate);
+
+    const mostAns = findMostAnswered(rate);
+    console.log("The mostAns is",mostAns); 
+
+    const totaleVotes = Object.values(rate).reduce((acc,curr)=>acc+curr,0);
+    console.log("the totaleVote is",totaleVotes);
 
     return (
         <div>
             <Badge type="rating">Rating</Badge>
             <h2>{label}</h2>
             <div>Average:{avg}</div>
-            <ul>
-                {answers.map((ans,index)=>(
-                    <li key={`${index}_${id}`}>{ans}</li> 
-                ))}
-            </ul>
+
         </div>
     )
 }
