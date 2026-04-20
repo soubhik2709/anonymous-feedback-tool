@@ -2,10 +2,11 @@
 import { mockForm } from "../features/Dashboard/constant/dashboard.data";
 import { TextQuestionCard } from "../features/Dashboard/Components/TextQuestionCard";
 import { RatingQuestionCard } from "../features/Dashboard/Components/RatingQuestionCard";
+import { DashboardLayout } from "../components/layout/DashboardLayout";
 export default function DashboardPage() {
   return (
-    <div>
-      <h1>{mockForm.title} summary</h1>
+<DashboardLayout>
+        <h1>{mockForm.title} summary</h1>
 
       {mockForm.questions.map((q) => {
         if (q.type === "text") return <TextQuestionCard key={q.id} id={q.id} />;
@@ -13,6 +14,6 @@ export default function DashboardPage() {
 
         return null;
       })}
-    </div>
+</DashboardLayout>
   );
 }

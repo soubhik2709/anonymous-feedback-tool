@@ -54,7 +54,7 @@ export const mockResponses = [
       {
         questionId: "q2",
         type: "rating",
-        value: 4,
+        value: 2,
       },
       {
         questionId: "q3",
