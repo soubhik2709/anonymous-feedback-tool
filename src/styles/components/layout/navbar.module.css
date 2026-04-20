@@ -1,12 +1,29 @@
-.navbar{
+.navbar {
     display: flex;
-    border: .5px solid gray;
     justify-content: space-around;
+    background-color: #9ab1d8;
+    border-radius: 8px;
 }
 
-.navlist{
-display: flex;
-gap:10%;
-list-style:none;
-padding-inline: 10px;
+.navlist {
+    display: flex;
+    gap: 10%;
+    list-style: none;
+    padding-inline: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-block: 10px;
+    cursor: pointer;
+}
+
+.logo {
+    height: 30px;
+    width: 40px;
+}
+
+.sunLogo {
+    height: 15px;
+    color: #E8ECEF;
+
 }
