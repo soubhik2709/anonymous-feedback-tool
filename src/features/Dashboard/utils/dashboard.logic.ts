@@ -73,14 +73,26 @@ export const findMostAnswered = (distribution: Record<number, number>) => {
   return result;
 };
 
+//helper function (purpose- to show the avg rating to the dashboard using getTotalStats )
+export const getAllRatingValues = (): number[] => {
+  return mockResponses
+    // .filter((res) => res.completed) //Decision: Usually, dashboards show data from all submitted answers to be more accurate, even if the user didn't reach the "Thank You" page.
+    .flatMap((res) => res.answers)
+    .filter((ans) => ans.type === "rating")
+    .map((ans) => ans.value)
+    .filter((val): val is number => typeof val === "number");
+};
 
 
 export const getTotalStats = ()=>{
   const totalResponse = mockResponses.length; //1
   const completed = mockResponses.filter((obj)=>obj.completed===true).length;
   const completionRate = totalResponse === 0 ? 0 : (completed / totalResponse) * 100;//2
+
+  const ratings = getAllRatingValues();
+  const avg = calculateAverage(ratings);
   
-  return {totalResponse,completionRate};
+  return {totalResponse,completionRate,avg};
 }
 
 

@@ -14,21 +14,20 @@ export default function DashboardPage() {
         style={{
           display: "grid",
           gap: "5px",
-          gridTemplateColumns: "auto auto auto ",
+          gridTemplateColumns: "repeat(4, 1fr)",
         }}
       >
-        <MetricCard>
-          <h4>Total Responses</h4>
-          <p>{stats.totalResponse}</p>
-        </MetricCard>
-        <MetricCard>
-          <h4>Completion Rate</h4>
-          <p>{stats.completionRate}</p>
-        </MetricCard>
-        <MetricCard>
-          <h4>Form View</h4>
-          <p>61</p>
-        </MetricCard>
+        <MetricCard label="Total Responses" value={stats.totalResponse} />
+        <MetricCard
+          label="Completion Rate"
+          value={`${stats.completionRate.toFixed(0)}%`}
+        />
+        <MetricCard
+         label="Form View" 
+         value={61} />{/*  this will come from the backend data:*/}
+        <MetricCard
+         label="Avg Rating" 
+         value={stats.avg} />
       </div>
       {mockForm.questions.map((q) => {
         if (q.type === "text") return <TextQuestionCard key={q.id} id={q.id} />;
@@ -40,3 +39,6 @@ export default function DashboardPage() {
     </DashboardLayout>
   );
 }
+
+
+
