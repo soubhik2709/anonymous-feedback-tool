@@ -57,16 +57,17 @@ export const findMostAnswered = (distribution: Record<number, number>) => {
   // i didnt define the Record , what is Record , then how this is possible? 5
   let maxVotes = -1;
   // let mostAnsweredRating = 0;
-  let result:number[]=[];
+  let result: number[] = [];
 
-  for (const [rating, count] of Object.entries(distribution)) {//4.Object.entries
+  for (const [rating, count] of Object.entries(distribution)) {
+    //4.Object.entries
     const numRating = Number(rating);
 
     if (count > maxVotes) {
       maxVotes = count;
       result = [numRating]; //reset for bigger number
       // mostAnsweredRating = Number(rating);
-    }else if( count === maxVotes){
+    } else if (count === maxVotes) {
       result.push(numRating);
     }
   }
@@ -75,51 +76,102 @@ export const findMostAnswered = (distribution: Record<number, number>) => {
 
 //helper function (purpose- to show the avg rating to the dashboard using getTotalStats )
 export const getAllRatingValues = (): number[] => {
-  return mockResponses
-    // .filter((res) => res.completed) //Decision: Usually, dashboards show data from all submitted answers to be more accurate, even if the user didn't reach the "Thank You" page.
-    .flatMap((res) => res.answers)
-    .filter((ans) => ans.type === "rating")
-    .map((ans) => ans.value)
-    .filter((val): val is number => typeof val === "number");
+  return (
+    mockResponses
+      // .filter((res) => res.completed) //Decision: Usually, dashboards show data from all submitted answers to be more accurate, even if the user didn't reach the "Thank You" page.
+      .flatMap((res) => res.answers)
+      .filter((ans) => ans.type === "rating")
+      .map((ans) => ans.value)
+      .filter((val): val is number => typeof val === "number")
+  );
 };
 
-
-export const getTotalStats = ()=>{
+export const getTotalStats = () => {
   const totalResponse = mockResponses.length; //1
-  const completed = mockResponses.filter((obj)=>obj.completed===true).length;
-  const completionRate = totalResponse === 0 ? 0 : (completed / totalResponse) * 100;//2
+  const completed = mockResponses.filter(
+    (obj) => obj.completed === true,
+  ).length;
+  const completionRate =
+    totalResponse === 0 ? 0 : (completed / totalResponse) * 100; //2
 
   const ratings = getAllRatingValues();
   const avg = calculateAverage(ratings);
-  
-  return {totalResponse,completionRate,avg};
-}
+
+  return { totalResponse, completionRate, avg };
+};
+
+// mcq
+export const getMcqStats = () => {
+  return mockForm.questions
+    .filter((q) => q.type === "multiple_choice")
+    .map((q) => {
+
+      // Initialize the Bucket
+      const bucket =
+        q.options?.reduce(
+          (acc, item) => {
+            acc[item] = 0;
+            return acc;  // return 1*
+          },
+          {} as Record<string, number>,
+        ) ?? {};
+
+      // console.log("bucket before fun", bucket);
+      // op {"React basics": 0,"TypeScript": 0,"API integration": 0,"CSS layout": 0}
 
 
+      // Fillup the key values
+      mockResponses.forEach((res) => {
+        res.answers.forEach((ans) => {
+          if (ans.questionId === q.id && bucket[ans.value] !== undefined) {
+            bucket[ans.value] += 1;
+          }
+        });
+      });
 
+      // console.log("bucket after add the value", bucket);
+      // op {"React basics": 2,"TypeScript": 0,"API integration": 1,"CSS layout": 1}
 
+      const total = Object.values(bucket).reduce((a, b) => a + b, 0);
 
+      return {
+        questionId: q.id,
+        label: q.label,
+        bucket,
+        total,
+      };// reutnrn 2*
+    });
+}; //2 times return ?
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log("Result:", getMcqStats());
 
 //why dont i write here any function return type for typeScript?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* 
     1. const question = mockForm.questions.find((q)=>q.id === "q1");
@@ -160,4 +212,25 @@ This allows you to use the for...of loop and destructure the [rating, count] eas
 5. i didnt define the Record , what is Record , then how this is possible? 
 Record is a built-in TypeScript Utility Type. You don't need to define it because TypeScript provides it automatically.
 It is a quick way to define an Object.
+
+-------------------------------------------------------------------------------------
+6.  ??  → nullish coalescing operator (ans.options ?? [])
+"If options exists → use it  
+If options is undefined/null → use []"
+
+-------------------------------------------------------------------------------------
+7.Two times return why?
+return 1 : Tell reduce what the next accumulator should be
+Step 1: acc = {}
+Step 2: add "React": 0 → return updated acc
+Step 3: add "TS": 0 → return updated acc
+...
+
+return 2:Tell map what each item should become
+
+return in reduce → controls accumulation
+return in map    → controls output array
+
+-------------------------------------------------------------------------------------
+
     */

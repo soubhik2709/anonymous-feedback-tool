@@ -27,7 +27,7 @@ export const mockForm = {
       type: "multiple_choice",
       label: "Which topic was most useful to you?",
       required: true,
-      options: ["React basics", "TypeScript", "API integration", "CSS layout"],
+      options: ["React basics", "TpyeScript", "API integration", "CSS layout"],
     },
     {
       id: "q4",

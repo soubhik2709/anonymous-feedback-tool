@@ -15,7 +15,7 @@ export const TextQuestionCard = ({ id }: Props) => {
 
 
   return (
-    <div>
+    <div style={{ background: "#cfefb3", padding: "20px" }}>
       <Badge type="text">Text</Badge>
       <h5>Ans:{value.length}</h5>
       <h3>{label}</h3>
