@@ -17,6 +17,7 @@ export const RatingQuestionCard = ({ id }: Props) => {
   const answers = findAnswer(id);
 
   const values = answers.map((ans) => ans.value);
+  console.log("value is ",values);
 
   const avg = calculateAverage(values);
   const rate = calculateDistribution(values);

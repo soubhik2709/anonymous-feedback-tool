@@ -75,8 +75,13 @@ export const findMostAnswered = (distribution: Record<number, number>) => {
 
 
 
-
-
+export const getTotalStats = ()=>{
+  const totalResponse = mockResponses.length; //1
+  const completed = mockResponses.filter((obj)=>obj.completed===true).length;
+  const completionRate = totalResponse === 0 ? 0 : (completed / totalResponse) * 100;//2
+  
+  return {totalResponse,completionRate};
+}
 
 
 
