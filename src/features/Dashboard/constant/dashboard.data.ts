@@ -242,21 +242,55 @@ export const mockResponses = [
 ];
 
 
-export const mockStats = {
-  totalResponses: 8,
-  completedResponses: 6,
-  totalViews: 21,
-  completionRate: 75,
-  conversionRate: 38,
-  averageRating: 4.0,
-  newToday: 2,
-  activityByDay: [
-    { day: "Mon", count: 0 },
-    { day: "Tue", count: 2 },
-    { day: "Wed", count: 3 },
-    { day: "Thu", count: 0 },
-    { day: "Fri", count: 2 },
-    { day: "Sat", count: 1 },
-    { day: "Sun", count: 0 },
-  ],
+// src/mock/sidebarMock.ts
+
+export const mockActivityData = {
+
+  // --- RESPONSE ACTIVITY SECTION ---
+  activity: {
+
+    // 7 days bar chart data
+    weeklyActivity: [
+      { day: "Mon", date: "2025-04-14", responseCount: 3 },
+      { day: "Tue", date: "2025-04-15", responseCount: 7 },
+      { day: "Wed", date: "2025-04-16", responseCount: 10 },
+      { day: "Thu", date: "2025-04-17", responseCount: 4 },
+      { day: "Fri", date: "2025-04-18", responseCount: 11 },
+      { day: "Sat", date: "2025-04-19", responseCount: 2 },
+      { day: "Sun", date: "2025-04-20", responseCount: 1 },
+    ],
+
+    // summary line below the chart
+    // "Most responses on Friday · 6 new today"
+    mostActiveDay: "Friday",
+    newToday: 6,
+    totalResponsesThisWeek: 38,
+  },
+
+  // --- FORM VIEWS SECTION ---
+  views: {
+    totalViews: 61,          // how many times the public link was opened
+    totalSubmissions: 24,    // how many actually submitted
+    notConvertedCount: 37,   // views - submissions
+    conversionRate: 39,      // percentage: (24 / 61) * 100 = 39%
+
+    // for the small bar showing converted vs not
+    convertedBar: {
+      converted: 39,         // % width of green bar
+      notConverted: 61,      // % width of gray bar
+    },
+  },
+
+  // --- FORM SETTINGS SECTION ---
+  settings: {
+    isActive: true,              // accepting responses toggle
+    emailNotifications: false,   // email alert toggle
+  },
+
+  // --- SHARE LINK SECTION ---
+  shareLink: {
+    token: "x7k2p",
+    fullUrl: "feedbackanon.com/f/x7k2p",
+  },
+
 };

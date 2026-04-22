@@ -11,31 +11,93 @@ export default function DashboardPage() {
   const stats = getTotalStats();
   return (
     <DashboardLayout>
-      <h1>{mockForm.title} summary</h1>
-      <div
-        style={{
-          display: "grid",
-          gap: "5px",
-          gridTemplateColumns: "repeat(4, 1fr)",
-        }}
-      >
+      <h1 className="text-xl">{mockForm.title} summary</h1>
+
+      {/* Metric Card */}
+      <section className="grid grid-cols-4 gap-1">
         <MetricCard label="Total Responses" value={stats.totalResponse} />
-        <MetricCard
-          label="Completion Rate"
-          value={`${stats.completionRate.toFixed(0)}%`}
-        />
+        <MetricCard  label="Completion Rate" value={`${stats.completionRate.toFixed(0)}%`}/>
         <MetricCard label="Form View" value={61} />
         {/*  this will come from the backend data:*/}
         <MetricCard label="Avg Rating" value={stats.avg} />
-      </div>
-      {mockForm.questions.map((q) => {
-        if (q.type === "text") return <TextQuestionCard key={q.id} id={q.id} />;
-        if (q.type === "rating") return <RatingQuestionCard key={q.id} id={q.id} />;
-        if(q.type === "multiple_choice") return <McqQuestionCard />;
-        if(q.type === "yes_no") return <YesNoQuestionCard/>;
+      </section>
 
-        return null;
-      })}
+      <div className="flex h-[calc(100vh-120px)] gap-2">
+
+        {/* Anwers(LeftSide) */}
+        <section className="p-1 w-1/2 overflow-y-auto bg-[#fff] custom-scrollbar ">
+          {mockForm.questions.map((q) => {
+            if (q.type === "text")
+              return <TextQuestionCard key={q.id} id={q.id} />;
+            if (q.type === "rating")
+              return <RatingQuestionCard key={q.id} id={q.id} />;
+            if (q.type === "multiple_choice") return <McqQuestionCard />;
+            if (q.type === "yes_no") return <YesNoQuestionCard />;
+
+            return null;
+          })}
+        </section>
+
+        {/* BackEnd Fetch UI Data(Right Side) */}
+        <section className="flex-1 bg-[#f9fafb] p-2.5 rounded-lg"></section>
+      </div>
     </DashboardLayout>
   );
 }
+
+
+
+
+
+
+/* 
+Edit the style later ->
+// const stats = getTotalStats();
+
+// return (
+//   <DashboardLayout>
+    
+    // {/* Title */
+//     <h1 className="text-xl font-semibold mb-4">
+//       {mockForm.title} summary
+//     </h1>
+
+//     {/* Metric Cards */}
+//     <section className="grid grid-cols-4 gap-4 mb-4">
+//       <MetricCard label="Total Responses" value={stats.totalResponse} />
+//       <MetricCard
+//         label="Completion Rate"
+//         value={`${stats.completionRate.toFixed(0)}%`}
+//       />
+//       <MetricCard label="Form View" value={61} />
+//       <MetricCard label="Avg Rating" value={stats.avg} />
+//     </section>
+
+//     {/* Main Layout */}
+//     <div className="flex h-[calc(100vh-160px)] gap-4">
+
+//       {/* LEFT PANEL */}
+//       <section className="w-1/3 overflow-y-auto bg-white p-4 rounded-lg shadow custom-scrollbar">
+//         {mockForm.questions.map((q) => {
+//           if (q.type === "text")
+//             return <TextQuestionCard key={q.id} id={q.id} />;
+//           if (q.type === "rating")
+//             return <RatingQuestionCard key={q.id} id={q.id} />;
+//           if (q.type === "multiple_choice")
+//             return <McqQuestionCard key={q.id} />;
+//           if (q.type === "yes_no")
+//             return <YesNoQuestionCard key={q.id} />;
+//           return null;
+//         })}
+//       </section>
+
+//       {/* RIGHT PANEL */}
+//       <section className="flex-1 bg-gray-50 p-4 rounded-lg shadow">
+//         {/* future content */}
+//       </section>
+
+//     </div>
+
+//   </DashboardLayout>
+// );
+// */

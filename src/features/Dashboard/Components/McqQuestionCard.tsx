@@ -50,7 +50,7 @@ return (
               gap: "20px",
               height: "180px",
               marginTop: "15px",
-              border:"2px solid grey"
+              // border:"2px solid grey"
 
             }}
           >
