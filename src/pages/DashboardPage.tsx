@@ -6,6 +6,7 @@ import { DashboardLayout } from "../components/layout/DashboardLayout";
 import MetricCard from "../components/ui/MetricCard";
 import { getTotalStats } from "../features/Dashboard/utils/dashboard.logic";
 import { McqQuestionCard } from "../features/Dashboard/Components/McqQuestionCard";
+import { YesNoQuestionCard } from "../features/Dashboard/Components/yesNoQuestionCard";
 export default function DashboardPage() {
   const stats = getTotalStats();
   return (
@@ -31,6 +32,7 @@ export default function DashboardPage() {
         if (q.type === "text") return <TextQuestionCard key={q.id} id={q.id} />;
         if (q.type === "rating") return <RatingQuestionCard key={q.id} id={q.id} />;
         if(q.type === "multiple_choice") return <McqQuestionCard />;
+        if(q.type === "yes_no") return <YesNoQuestionCard/>;
 
         return null;
       })}

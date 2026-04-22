@@ -143,14 +143,41 @@ export const getMcqStats = () => {
     });
 }; //2 times return ?
 
-console.log("Result:", getMcqStats());
+// console.log("Result:", getMcqStats());
 
 //why dont i write here any function return type for typeScript?
 
 
+//YesNo 
+export const getYesnoStats = ()=>{
+  return mockForm.questions.filter((q)=>
+  q.type === "yes_no").map((q)=>{
+    // initialize bucket
+ const bucket : Record<string, number>= {Yes:0,No:0}
+   //Fillup the bucket value
+   mockResponses.forEach((res)=>{
+    res.answers.forEach((ans)=>{
+      if(ans.questionId === q.id && bucket[ans.value as "Yes" |"No"]!==undefined){
+        bucket[ans.value as "Yes" |"No"] += 1;
+      }
+    });
+   });
+
+   const total = Object.values(bucket).reduce((a,b)=>a+b ,0);
 
 
+    return{
+      questionId:q.id,
+      label:q.label,
+      bucket,
+      total,
+    };
+  }
+  
+  )
+}
 
+// console.log(getYesnoStats());
 
 
 
