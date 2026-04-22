@@ -19,79 +19,93 @@ export const McqQuestionCard = () => {
   }
 ] */
 
-  return (
-    <div style={{ background: "#e0f2d0", padding: "20px" }}>
-      <Badge type="mcq">Multiple_choice</Badge>
+return (
+  <div style={{ background: "#d0d2f2", padding: "20px" }}>
+    <Badge type="mcq">Multiple_choice</Badge>
 
-      {value.map((q) => (
-        <div>
+    {value.map((q) => {
+      const entries = Object.entries(q.bucket);
+
+      // ✅ find most answered ONCE (not inside loop)
+      const mostAns = entries.reduce(
+        (max, [option, count]) => {
+          if (count > max.count) {
+            return { option, count };
+          }
+          return max;
+        },
+        { option: "", count: -1 }
+      );
+
+      return (
+        <div key={q.questionId} style={{ marginTop: "20px" }}>
           <h4>{q.label}</h4>
           <span>{q.total} answers</span>
 
-          {/* BAR CHART */}
+          {/* VERTICAL BAR CHART */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              gap: "20px",
+              height: "180px",
+              marginTop: "15px",
+              border:"2px solid grey"
 
-          {Object.entries(q.bucket).map(([item, count]) => {
-            //using bucket values
-            const percentage = q.total === 0 ? 0 : (count / q.total) * 100;
+            }}
+          >
+            {entries.map(([item, count]) => {
+              const percentage =
+                q.total === 0 ? 0 : (count / q.total) * 100;
 
-            // find the most answer
-            const mostAns = Object.entries(q.bucket).reduce(
-              (max, [option, count]) => {
-                if (count > max.count) {
-                  return { option, count };
-                }
-                return max;
-              },
-              { option: "", count: -1 },
-            );
+              const isMost = item === mostAns.option;//what is this?
 
-            return (
-              <div key={item}>
+              return (
                 <div
+                  key={item}
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    flexDirection: "column",
                     alignItems: "center",
-                    marginTop: "8px",
-                    padding: "6px 0",
+                    justifyContent: "flex-end",
+                    height: "100%",
                   }}
                 >
-                  <span style={{ fontWeight: "600", fontSize: "14px" }}>
-                    {item}
+                  {/* VALUE */}
+                  <span style={{ fontSize: "15px", marginBottom: "6px", fontWeight:"bold" }}>
+                    {count}
                   </span>
-                  <span
-                    style={{
-                      fontWeight: "500",
-                      color: "#444",
-                      display: "flex",
-                      gap: "6px",
-                    }}
-                  >
-                    <span> {count}</span>
-                    <span>({percentage.toFixed(2)}%)</span>
-                  </span>
-                </div>
-                <div
-                  style={{
-                    height: "8px",
-                    background: "#ccc",
-                    borderRadius: "4px",
-                  }}
-                >
+
+                  {/* BAR */}
                   <div
                     style={{
-                      width: `${percentage}%`,
-                      height: "100%",
-                      background: mostAns ? "#deb44a" : "#60a5fa", // highlight most ans
-                      transition: "width 0.3s ease",
+                      width: "35px",
+                      height: `${percentage}%`,
+                      background: isMost ? "#e7cf47" : "#60a5fa",
+                      borderRadius: "6px",
+                      transition: "height 0.3s ease",
+                      border:"2px solid "
                     }}
-                  ></div>
+                  />
+
+                  {/* LABEL */}
+                  <span
+                    style={{
+                      marginTop: "8px",
+                      fontSize: "15px",
+                      textAlign: "center",
+                      fontWeight:"bold"
+                    }}
+                  >
+                    {item}
+                  </span>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      ))}
-    </div>
-  );
-};
+      );
+    })}
+  </div>
+)
+}
