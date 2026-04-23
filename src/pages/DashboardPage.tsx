@@ -14,12 +14,12 @@ export default function DashboardPage() {
       <h1 className="text-xl">{mockForm.title} summary</h1>
 
       {/* Metric Card */}
-      <section className="grid grid-cols-4 gap-1">
+      <section className="grid grid-cols-5 gap-1">
         <MetricCard label="Total Responses" value={stats.totalResponse} />
         <MetricCard  label="Completion Rate" value={`${stats.completionRate.toFixed(0)}%`}/>
-        <MetricCard label="Form View" value={61} />
-        {/*  this will come from the backend data:*/}
         <MetricCard label="Avg Rating" value={stats.avg} />
+        <MetricCard label="Form View" value={stats.view} />
+        <MetricCard label="NonSubmission" value={stats.nonSubCount} />
       </section>
 
       <div className="flex h-[calc(100vh-120px)] gap-2">

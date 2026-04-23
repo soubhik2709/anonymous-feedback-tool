@@ -1,5 +1,5 @@
 //dashboard.logic.ts
-import { mockForm, mockResponses } from "../constant/dashboard.data";
+import { mockForm, mockResponses,mockActivityData } from "../constant/dashboard.data";
 // mockStats
 type Answer = {
   questionId: string;
@@ -97,7 +97,12 @@ export const getTotalStats = () => {
   const ratings = getAllRatingValues();
   const avg = calculateAverage(ratings);
 
-  return { totalResponse, completionRate, avg };
+  const view = mockActivityData.views.totalViews;
+  const nonSubCount = mockActivityData.views.notConvertedCount
+
+  return { totalResponse, completionRate, avg ,view,nonSubCount
+
+  };
 };
 
 // mcq
@@ -179,7 +184,11 @@ export const getYesnoStats = ()=>{
 
 // console.log(getYesnoStats());
 
+// export const dailyActivityChart = ()=>{
+// const data = mockActivityData.activity.weeklyActivity.map((obj)=>{
 
+// })
+// }
 
 
 

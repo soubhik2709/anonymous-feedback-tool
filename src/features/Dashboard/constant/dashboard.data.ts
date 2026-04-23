@@ -272,8 +272,6 @@ export const mockActivityData = {
     totalViews: 61,          // how many times the public link was opened
     totalSubmissions: 24,    // how many actually submitted
     notConvertedCount: 37,   // views - submissions
-    conversionRate: 39,      // percentage: (24 / 61) * 100 = 39%
-
     // for the small bar showing converted vs not
     convertedBar: {
       converted: 39,         // % width of green bar
