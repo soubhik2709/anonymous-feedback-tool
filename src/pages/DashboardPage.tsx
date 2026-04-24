@@ -7,6 +7,7 @@ import MetricCard from "../components/ui/MetricCard";
 import { getTotalStats } from "../features/Dashboard/utils/dashboard.logic";
 import { McqQuestionCard } from "../features/Dashboard/Components/McqQuestionCard";
 import { YesNoQuestionCard } from "../features/Dashboard/Components/yesNoQuestionCard";
+import { ActivityChatCard } from "../features/Dashboard/Components/ActivityChartCard";
 export default function DashboardPage() {
   const stats = getTotalStats();
   return (
@@ -31,15 +32,20 @@ export default function DashboardPage() {
               return <TextQuestionCard key={q.id} id={q.id} />;
             if (q.type === "rating")
               return <RatingQuestionCard key={q.id} id={q.id} />;
-            if (q.type === "multiple_choice") return <McqQuestionCard />;
-            if (q.type === "yes_no") return <YesNoQuestionCard />;
+            if (q.type === "multiple_choice") return <McqQuestionCard key={q.id}/>;
+            if (q.type === "yes_no") return <YesNoQuestionCard key={q.id}/>;
 
             return null;
           })}
         </section>
 
         {/* BackEnd Fetch UI Data(Right Side) */}
-        <section className="flex-1 bg-[#f9fafb] p-2.5 rounded-lg"></section>
+        <section className="flex-1 bg-[#f9fafb] p-2.5 rounded-lg">
+          <div className="flex">
+<ActivityChatCard/>
+          </div>
+          
+        </section>
       </div>
     </DashboardLayout>
   );
