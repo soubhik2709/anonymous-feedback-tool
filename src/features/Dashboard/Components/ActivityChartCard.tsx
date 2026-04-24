@@ -2,10 +2,10 @@ import { mockActivityData } from "../constant/dashboard.data"
 
 export const ActivityChatCard = () => {
     const data = mockActivityData.activity.weeklyActivity.map((obj)=>obj);
-    console.log("the data is ",data);
+    // console.log("the data is ",data);
 
     const max = Math.max(...data.map(d=>d.responseCount));
-  console.log("the max is ", max);
+  // console.log("the max is ", max);
 
   return(
 
@@ -13,7 +13,8 @@ export const ActivityChatCard = () => {
      {data.map((item)=>{
         const height = (item.responseCount /max)*100;
         return(
-     <div className="h-full flex flex-1 flex-col items-center">
+     <div key={item.date}
+     className="h-full flex flex-1 flex-col items-center">
         {/* Bar contianer */}
       <div
       className="w-full h-full flex justify-center items-end border"

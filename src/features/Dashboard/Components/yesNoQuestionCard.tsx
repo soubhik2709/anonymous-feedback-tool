@@ -3,7 +3,8 @@ import { Badge } from "../../../components/ui/Badge";
 
 export const YesNoQuestionCard = ()=>{
     const value = getYesnoStats();
-    console.log("the value in Yesno is ",value); /* 
+    // console.log("the value in Yesno is ",value);
+     /* 
     op-->
     [
   {

@@ -4,7 +4,8 @@ import { Badge } from "../../../components/ui/Badge";
 export const McqQuestionCard = () => {
   const value = getMcqStats();
 
-  console.log("the value is", value); /* op-->
+  // console.log("the value is", value);
+   /* op-->
 [
   {
     questionId: 'q3',

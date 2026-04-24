@@ -8,6 +8,7 @@ import { getTotalStats } from "../features/Dashboard/utils/dashboard.logic";
 import { McqQuestionCard } from "../features/Dashboard/Components/McqQuestionCard";
 import { YesNoQuestionCard } from "../features/Dashboard/Components/yesNoQuestionCard";
 import { ActivityChatCard } from "../features/Dashboard/Components/ActivityChartCard";
+import { PieChart } from "../features/Dashboard/Components/PieChart";
 export default function DashboardPage() {
   const stats = getTotalStats();
   return (
@@ -44,6 +45,7 @@ export default function DashboardPage() {
           <div className="flex">
 <ActivityChatCard/>
           </div>
+<PieChart/>
           
         </section>
       </div>

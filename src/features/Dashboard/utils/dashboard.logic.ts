@@ -184,11 +184,7 @@ export const getYesnoStats = ()=>{
 
 // console.log(getYesnoStats());
 
-// export const dailyActivityChart = ()=>{
-// const data = mockActivityData.activity.weeklyActivity.map((obj)=>{
 
-// })
-// }
 
 
 
