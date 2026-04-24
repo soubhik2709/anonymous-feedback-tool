@@ -59,12 +59,12 @@ console.log(gradient); //#3b82f6 0deg 90deg,#f59e0b 90deg 180deg,#999 180deg 270
 
   return (
   <div
-  className="border border-orange-900 w-full p-2 flex flex-row items-center gap-1"
+  className="border border-orange-900 rounded-lg  p-2 flex flex-row items-center gap-2"
   >
 {/* pie */}
-<div className="w-1/2 flex-1">
+<div className="flex justify-center"> {/* how to remove extra right side space from here? */}
         <div
-    className="border border-black w-48 h-48 rounded-full"
+    className="w-48 h-48 rounded-full"
     style={{background:`conic-gradient(${gradient})`}}
     >
 
@@ -72,10 +72,10 @@ console.log(gradient); //#3b82f6 0deg 90deg,#f59e0b 90deg 180deg,#999 180deg 270
 </div>
 
     {/* legend */}
-<div className="border border-black space-y-2 w-1/5 p-0.5">
+<div className="space-y-1">
 {data.map((item)=>(
     <div key={item.type} className="">
-        <div className=" h-4 "
+        <div className="h-4 overflow-hidden "
         style={{ backgroundColor: item.color }}>
                 <span className="text-xs flex items-center">
               {item.type} ({Math.round((item.count / total) * 100)}%)
@@ -87,7 +87,6 @@ console.log(gradient); //#3b82f6 0deg 90deg,#f59e0b 90deg 180deg,#999 180deg 270
 
   </div>);
 };
-
 
 
 

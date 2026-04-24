@@ -43,9 +43,11 @@ export default function DashboardPage() {
         {/* BackEnd Fetch UI Data(Right Side) */}
         <section className="flex-1 bg-[#f9fafb] p-2.5 rounded-lg">
           <div className="flex">
-<ActivityChatCard/>
+            <PieChart/>
+            <ActivityChatCard/>
+
+
           </div>
-<PieChart/>
           
         </section>
       </div>
