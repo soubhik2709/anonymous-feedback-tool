@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 import Navbar from "../components/layout/Navbar";
 import { AnonymousBadge } from "../features/submitFeedback/components/AnonymousBadge";
 import { FeedbackHeader } from "../features/submitFeedback/components/FeedbackHeader";
@@ -21,6 +21,8 @@ export default function SubmitFeedbackPage() {
   const [answer, setAnswer] = useState<Answer>({});
   const [error, setError] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const questionRefs = useRef<Record<string,HTMLDivElement|null>>({});
+
 
   // progressBar
   const total = mockForm.questions.length;
@@ -33,7 +35,18 @@ export default function SubmitFeedbackPage() {
 
   const handleSubmit = () => {
     const isValid = validate();
-    if (!isValid) return;
+    if (!isValid) {
+   const firstErrorId = Object.keys(error)[0];
+
+  if (firstErrorId) {
+    questionRefs.current[firstErrorId]?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }
+
+  return;
+    }
     setSubmitted(true);
     console.log("The submit Answer si", answer);
   };
@@ -53,12 +66,15 @@ export default function SubmitFeedbackPage() {
     return Object.keys(newError).length === 0; //define 2.
   };
 
-  // const isFormValid = mockForm.questions.every((q) => {
-  //   if (!q.required) return true;
+/* 
+ const isFormValid = mockForm.questions.every((q) => {
+    if (!q.required) return true;
 
-  //   const val = answer[q.id];
-  //   return val !== undefined && val !== "" && val !== null;
-  // });
+    const val = answer[q.id];
+    return val !== undefined && val !== "" && val !== null;
+  }); 
+  */
+
   if (submitted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#dfcacaa3]">
@@ -89,7 +105,10 @@ export default function SubmitFeedbackPage() {
               description={mockForm.description}
             />
             {mockForm.questions.map((q) => (
-              <div key={q.id} className="mb-5">
+              <div key={q.id}
+               className="mb-5"
+               ref ={(el)=>{questionRefs.current[q.id]=el}}
+               >
                 <p>
                   {q.label} {q.required && "*"}
                 </p>
