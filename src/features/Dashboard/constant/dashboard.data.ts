@@ -15,12 +15,6 @@ export const mockForm = {
       label: "What did you think about the session overall?",
       required: true,
     },
-        {
-      id: "q1",
-      type: "text",
-      label: "What did you think about the session overall?",
-      required: true,
-    },
     {
       id: "q2",
       type: "rating",
