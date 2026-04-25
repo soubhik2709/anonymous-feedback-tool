@@ -9,7 +9,7 @@ export const DashboardLayout = ({
 }) => {
   return (
     <div 
-   className="min-h-screen overflow-hidden bg-[#dfcacaa3] custom-scrollbar">
+  >
       <Navbar></Navbar>
       <main>{children}</main>
       <Footer></Footer>
