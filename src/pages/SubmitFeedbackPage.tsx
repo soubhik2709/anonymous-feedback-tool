@@ -53,12 +53,12 @@ export default function SubmitFeedbackPage() {
     return Object.keys(newError).length === 0; //define 2.
   };
 
-  const isFormValid = mockForm.questions.every((q) => {
-    if (!q.required) return true;
+  // const isFormValid = mockForm.questions.every((q) => {
+  //   if (!q.required) return true;
 
-    const val = answer[q.id];
-    return val !== undefined && val !== "" && val !== null;
-  });
+  //   const val = answer[q.id];
+  //   return val !== undefined && val !== "" && val !== null;
+  // });
   if (submitted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#dfcacaa3]">
@@ -174,11 +174,9 @@ export default function SubmitFeedbackPage() {
               </div>
             ))}
             <button
-              className={`mt-6 w-full py-2 rounded-lg text-white ${
-                isFormValid
-                  ? "bg-purple-600"
-                  : "bg-purple-400 opacity-50 cursor-not-allowed"
-              }`}
+              className={`mt-6 w-full py-2 rounded-lg text-white 
+                   bg-purple-600`
+                 }
               onClick={handleSubmit}
             >
               Submit Feedback
