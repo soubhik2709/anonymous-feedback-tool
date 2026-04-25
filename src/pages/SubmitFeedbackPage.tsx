@@ -21,6 +21,15 @@ export default function SubmitFeedbackPage() {
 const [answer,setAnswer]=useState<Answer>({});
 const [error,setError] = useState<Record<string,string>>({});
 
+// progressBar
+const total = mockForm.questions.length;
+const answered = mockForm.questions.filter((q)=>{
+  const val = answer[q.id];
+  return val !== undefined && val !== ""&& val !== null;
+}).length;
+
+const percentage = Math.round((answered/total)*100);
+
 const handleSubmit = ()=>{
   const isValid = validate();
   if(!isValid) return;
@@ -49,10 +58,10 @@ const validate = ()=>{
       <div className="px-4 py-10 border border-red-500">
         <div className="max-w-[600px] mx-auto ">
           <div className="bg-white p-6 rounded-xl shadow">
-            <ProgressBar/>
-            <ProgressText/>
+            <ProgressBar percentage ={percentage}/>
+            <ProgressText  current={answered} total={total} percentage={percentage}/>
             <AnonymousBadge />
-            <FeedbackHeader/>
+            <FeedbackHeader title={mockForm.title} description={mockForm.description}/>
             {mockForm.questions.map((q)=>(
               <div key={q.id} className="mb-5">
                <p>{q.label} {q.required && "*"}</p>
