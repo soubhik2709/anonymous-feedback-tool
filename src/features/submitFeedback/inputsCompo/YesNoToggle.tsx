@@ -2,28 +2,51 @@
 type YesNoValue = "Yes" | "No";
 
 type YesNoProps = {
-  qId:string,
   value:YesNoValue| "",
-  onSelect:(value:YesNoValue) =>void;
+  onSelect:(value:YesNoValue |null) =>void;
 }
 
-export default function YesNoToggle({qId,value,onSelect}:YesNoProps){
+export default function YesNoToggle({value,onSelect}:YesNoProps){
 
-  return(
-    <div>
-      {(["Yes","No"] as YesNoValue[]).map((opt)=>(
-      <label key={opt} className="block mb-2 cursor-pointer">
-        <input
-        id={`${qId}-${opt}`}
-        name={qId} //1
-        type="radio"
-        value={opt}//2
-        checked = {value === opt}
-        onChange={(e)=>onSelect(e.target.value as YesNoValue)}
-         />
-         {opt}
-      </label>
-      ))}
+ return (
+    <div className="flex gap-3">
+      
+      {/* YES */}
+      <button
+        onClick={() => {
+          if (value === "Yes") {
+            onSelect(null); // reset
+          } else {
+            onSelect("Yes");
+          }
+        }}
+        className={`px-4 py-2 rounded border ${
+          value === "Yes"
+            ? "bg-green-500 text-white border-green-500"
+            : "border-gray-300"
+        }`}
+      >
+        Yes
+      </button>
+
+      {/* NO */}
+      <button
+        onClick={() => {
+          if (value === "No") {
+            onSelect(null); // reset
+          } else {
+            onSelect("No");
+          }
+        }}
+        className={`px-4 py-2 rounded border ${
+          value === "No"
+            ? "bg-red-500 text-white border-red-500"
+            : "border-gray-300"
+        }`}
+      >
+        No
+      </button>
+
     </div>
   );
 

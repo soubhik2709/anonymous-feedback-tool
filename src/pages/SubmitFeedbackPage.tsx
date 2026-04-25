@@ -12,7 +12,7 @@ import YesNoToggle    from "../features/submitFeedback/inputsCompo/YesNoToggle";
 // -----------------------
 import { mockForm } from "../features/Dashboard/constant/dashboard.data";
 type YesNo = "Yes"|"No";
-type AnswerValue = string | number |YesNo;
+type AnswerValue = string | number |YesNo |null;
 type Answer ={
     [qId:string]:AnswerValue;
 };
@@ -92,7 +92,7 @@ const validate = ()=>{
               {/* Rating */}
               {q.type === "rating" && (
                 <RatingInput
-                 rating = {(answer[q.id] as number) || null}
+                 rating = {(answer[q.id] as number) ?? null}
                  onChange={(val)=>{setAnswer((prev)=>({
                   ...prev,
                   [q.id]:val,
@@ -110,9 +110,8 @@ const validate = ()=>{
               {/* MCQ */}
               {q.type === "multiple_choice" && (
                 <MCQOptions
-                 qId = {q.id}
                  options={q.options || []}
-                 value={(answer[q.id] as string) || ""}
+                 value={(answer[q.id] as string) ?? ""}
                 onSelect={(val)=>{setAnswer((prev)=>({
                   ...prev,
                   [q.id]:val,
@@ -130,13 +129,12 @@ const validate = ()=>{
               {/* YesNo */}
               {q.type === "yes_no" &&(
                 <YesNoToggle 
-                qId={q.id}
-                value={(answer[q.id] as YesNo)|| null}
+                value={(answer[q.id] as YesNo)?? null}
                 onSelect={(val)=>{
                 setAnswer((prev)=>({
                     ...prev,
                     [q.id]:val,
-                  }))
+                  }));
                 setError((prev) => {
                 const updated = { ...prev };
                 delete updated[q.id];
@@ -174,5 +172,9 @@ this validate function only return either true or false.
 ---------------------------------------------------
 3.How error code line adjust to the right place everytime?
 so when i click the submit button then if error occurs , then React re-renders the component, and because each question uses its own q.id, the error is conditionally rendered in the correct position.
-
+----------------------------------------------------
+|| → treats 0 as false ❌
+?? → only replaces null/undefined ✅
+---------------------------------------------------
+here i removed qId from (mcqOption,yesnotog,rating,text) because child components should not care about question IDs. so that -removed qId because child components should not care about question IDs.Separation of concerns
 */
