@@ -20,6 +20,7 @@ type Answer ={
 export default function SubmitFeedbackPage() {
 const [answer,setAnswer]=useState<Answer>({});
 const [error,setError] = useState<Record<string,string>>({});
+const [submitted, setSubmitted] = useState(false);
 
 // progressBar
 const total = mockForm.questions.length;
@@ -33,6 +34,7 @@ const percentage = Math.round((answered/total)*100);
 const handleSubmit = ()=>{
   const isValid = validate();
   if(!isValid) return;
+  setSubmitted(true);
   console.log("The submit Answer si",answer);
 }
 
@@ -50,7 +52,17 @@ const validate = ()=>{
   console.log("The error is",error);
   return Object.keys(newError).length === 0;//define 2.
 }
-
+    if(submitted){
+          return (
+      <div className="min-h-screen flex items-center justify-center bg-[#dfcacaa3]">
+        <div className="bg-white p-6 rounded-xl shadow text-center">
+          <h2 className="text-green-600 text-lg font-semibold">
+            ✅ Thank you for your feedback!
+          </h2>
+        </div>
+      </div>
+    );
+    }
   return (
     <div className="min-h-screen bg-[#dfcacaa3]">
       <Navbar />
