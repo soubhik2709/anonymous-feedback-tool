@@ -19,11 +19,28 @@ type Answer ={
 
 export default function SubmitFeedbackPage() {
 const [answer,setAnswer]=useState<Answer>({});
+const [error,setError] = useState<Record<string,string>>({});
+
 const handleSubmit = ()=>{
+  const isValid = validate();
+  if(!isValid) return;
   console.log("The submit Answer si",answer);
 }
 
-
+const validate = ()=>{
+  const newError:Record<string,string> ={}; //why need this obj? 1.
+  mockForm.questions.forEach((q)=>{
+    if(q.required){
+      const value = answer[q.id];
+      if(!value){
+        newError[q.id] = "This field is required";
+      }
+    }
+  });
+  setError(newError);
+  console.log("The error is",error);
+  return Object.keys(newError).length === 0;//define 2.
+}
 
   return (
     <div className="min-h-screen bg-[#dfcacaa3]">
@@ -39,25 +56,44 @@ const handleSubmit = ()=>{
             {mockForm.questions.map((q)=>(
               <div key={q.id} className="mb-5">
                <p>{q.label} {q.required && "*"}</p>
+
+              {/* Error */}
+              {error[q.id]&&(
+                <p className="text-red-500 text-sm mt-1">{error[q.id]}</p>
+              )}
               
               {/* TEXT */}
               {q.type === "text" && (
                 <TextareaWithCounter
                 value={(answer[q.id] as string)|| ""}
-                onChange={(val)=>setAnswer((prev)=>({
+                onChange={(val)=>{
+                  setAnswer((prev)=>({
                   ...prev,
                   [q.id]:val,
-                }))}
+                }));
+                setError((prev) => {
+                const updated = { ...prev };
+                delete updated[q.id];
+                return updated;
+              });
+              
+              }}
                 />
               )}
               {/* Rating */}
               {q.type === "rating" && (
                 <RatingInput
                  rating = {(answer[q.id] as number) || null}
-                 onChange={(val)=>setAnswer((prev)=>({
+                 onChange={(val)=>{setAnswer((prev)=>({
                   ...prev,
                   [q.id]:val,
-                 }))}
+                 }))
+                setError((prev) => {
+                const updated = { ...prev };
+                delete updated[q.id];
+                return updated;
+              });
+                }}
 
                 />
               )}
@@ -68,10 +104,17 @@ const handleSubmit = ()=>{
                  qId = {q.id}
                  options={q.options || []}
                  value={(answer[q.id] as string) || ""}
-                onSelect={(val)=>setAnswer((prev)=>({
+                onSelect={(val)=>{setAnswer((prev)=>({
                   ...prev,
                   [q.id]:val,
-                }))}
+                }))
+
+                  setError((prev) => {
+                const updated = { ...prev };
+                delete updated[q.id];
+                return updated;
+              });
+              }}
                 />
               )}
 
@@ -80,14 +123,21 @@ const handleSubmit = ()=>{
                 <YesNoToggle 
                 qId={q.id}
                 value={(answer[q.id] as YesNo)|| null}
-                onSelect={(val)=>
+                onSelect={(val)=>{
                 setAnswer((prev)=>({
                     ...prev,
                     [q.id]:val,
                   }))
-                }
+                setError((prev) => {
+                const updated = { ...prev };
+                delete updated[q.id];
+                return updated;
+              });
+                }}
                 />
               )}
+
+
 
               </div>
             ))}
@@ -102,3 +152,18 @@ const handleSubmit = ()=>{
   );
 }
 // add correct style.
+
+
+
+/* 
+1. const newError:Record<string,string> ={}; //why need this obj? 1.
+There are many types of qustions type are there , everyone has different id , key value pair, and also to show the unique separate error msg we need this object.
+------------------------------------------------------
+2.return Object.keys(newError).length === 0;//define 2.
+Object.key returns the all key in array format of newError object. then count the length, if 0 then true,
+this validate function only return either true or false.
+---------------------------------------------------
+3.How error code line adjust to the right place everytime?
+so when i click the submit button then if error occurs , then React re-renders the component, and because each question uses its own q.id, the error is conditionally rendered in the correct position.
+
+*/
