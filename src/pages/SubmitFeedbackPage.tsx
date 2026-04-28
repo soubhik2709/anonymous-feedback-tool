@@ -1,11 +1,11 @@
-import { useState,useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import { AnonymousBadge } from "../features/submitFeedback/components/AnonymousBadge";
 import { FeedbackHeader } from "../features/submitFeedback/components/FeedbackHeader";
 import { ProgressBar } from "../features/submitFeedback/components/ProgressBar";
 import { ProgressText } from "../features/submitFeedback/components/ProgressText";
 // -----------------------------------------
-import TextareaWithCounter from "../features/submitFeedback/inputsCompo/TextareaWithCounter";
+import Textarea from "../features/submitFeedback/inputsCompo/TextareaWithCounter";
 import RatingInput from "../features/submitFeedback/inputsCompo/RatingInput";
 import MCQOptions from "../features/submitFeedback/inputsCompo/MCQOption";
 import YesNoToggle from "../features/submitFeedback/inputsCompo/YesNoToggle";
@@ -18,11 +18,31 @@ type Answer = {
 };
 
 export default function SubmitFeedbackPage() {
-  const [answer, setAnswer] = useState<Answer>({});
+  const [answer, setAnswer] = useState<Answer>(() => {
+    const saved = localStorage.getItem("feedback_answers");
+    return saved ? JSON.parse(saved) : {};
+  });
   const [error, setError] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const questionRefs = useRef<Record<string,HTMLDivElement|null>>({});
+  const [submitted, setSubmitted] = useState(() => {
+    return localStorage.getItem("feedback_submitted") === "true";
+  });
+  const questionRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
+  const validate = () => {
+    const newError: Record<string, string> = {}; //why need this obj? 1.
+    mockForm.questions.forEach((q) => {
+      if (q.required) {
+        const value = answer[q.id];
+        if (value === undefined || value === "" || value === null) {
+          newError[q.id] = "This field is required";
+        }
+      }
+    });
+    setError(newError);
+    console.log("The error is", newError);
+    // return Object.keys(newError).length === 0; //define 2.
+    return newError;
+  };
 
   // progressBar
   const total = mockForm.questions.length;
@@ -33,40 +53,31 @@ export default function SubmitFeedbackPage() {
 
   const percentage = Math.round((answered / total) * 100);
 
+  //handle submit
   const handleSubmit = () => {
     const isValid = validate();
-    if (!isValid) {
-   const firstErrorId = Object.keys(error)[0];
 
-  if (firstErrorId) {
-    questionRefs.current[firstErrorId]?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-  }
+    if (Object.keys(isValid).length > 0) {
+      const firstErrorId = Object.keys(isValid)[0];
+      if (!firstErrorId) {
+        const firstErrorId = Object.keys(error)[0];
 
-  return;
+        if (firstErrorId) {
+          questionRefs.current[firstErrorId]?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }
+      return;
     }
+
     setSubmitted(true);
+    localStorage.setItem("feedback_submitted", "true"); // after form submit, user can not sumbit aggain
     console.log("The submit Answer si", answer);
   };
 
-  const validate = () => {
-    const newError: Record<string, string> = {}; //why need this obj? 1.
-    mockForm.questions.forEach((q) => {
-      if (q.required) {
-        const value = answer[q.id];
-        if (!value) {
-          newError[q.id] = "This field is required";
-        }
-      }
-    });
-    setError(newError);
-    console.log("The error is", error);
-    return Object.keys(newError).length === 0; //define 2.
-  };
-
-/* 
+  /* 
  const isFormValid = mockForm.questions.every((q) => {
     if (!q.required) return true;
 
@@ -75,18 +86,43 @@ export default function SubmitFeedbackPage() {
   }); 
   */
 
-  if (submitted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#dfcacaa3]">
-        <div className="bg-white p-6 rounded-xl shadow text-center">
-          <h2 className="text-green-600 text-lg font-semibold">
-            ✅ Thank you for your feedback!
-          </h2>
-        </div>
+  useEffect(() => {
+    localStorage.setItem("feedback_answers", JSON.stringify(answer));
+  }, [answer]);
+
+  //loading effect
+  useEffect(() => {
+    const saved = localStorage.getItem("feedback_answers");
+    if (saved) {
+      setAnswer(JSON.parse(saved));
+    }
+  }, []);
+
+  const handleNewForm = () => {
+    localStorage.removeItem("feedback_submitted");
+    localStorage.removeItem("feedback_answers");
+
+    setAnswer({});
+    setSubmitted(false);
+    setError({});
+  };
+
+  return submitted ? (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#dfcacaa3]">
+      <div className="bg-white p-6 rounded-xl shadow text-center">
+        <h2 className="text-green-600 text-lg font-semibold">
+          ✅ Thank you for your feedback!
+        </h2>
       </div>
-    );
-  }
-  return (
+
+      <button
+        onClick={handleNewForm}
+        className="mt-4 px-4 py-2 rounded-lg bg-green-600 text-white"
+      >
+        Submit Another Response
+      </button>
+    </div>
+  ) : (
     <div className="min-h-screen bg-[#dfcacaa3]">
       <Navbar />
       {/* PageWrapper */}
@@ -105,10 +141,14 @@ export default function SubmitFeedbackPage() {
               description={mockForm.description}
             />
             {mockForm.questions.map((q) => (
-              <div key={q.id}
-               className="mb-5"
-               ref ={(el)=>{questionRefs.current[q.id]=el}}
-               >
+              <div
+                key={q.id}
+                className="mb-5"
+                ref={(el) => {
+                  questionRefs.current[q.id] = el;
+                  // console.log("the el is ",el);
+                }}
+              >
                 <p>
                   {q.label} {q.required && "*"}
                 </p>
@@ -120,7 +160,7 @@ export default function SubmitFeedbackPage() {
 
                 {/* TEXT */}
                 {q.type === "text" && (
-                  <TextareaWithCounter
+                  <Textarea
                     value={(answer[q.id] as string) || ""}
                     onChange={(val) => {
                       setAnswer((prev) => ({
@@ -194,9 +234,9 @@ export default function SubmitFeedbackPage() {
             ))}
             <button
               className={`mt-6 w-full py-2 rounded-lg text-white 
-                   bg-purple-600`
-                 }
+                   bg-purple-600`}
               onClick={handleSubmit}
+              disabled={submitted}
             >
               Submit Feedback
             </button>
@@ -206,21 +246,3 @@ export default function SubmitFeedbackPage() {
     </div>
   );
 }
-// add correct style.
-
-/* 
-1. const newError:Record<string,string> ={}; //why need this obj? 1.
-There are many types of qustions type are there , everyone has different id , key value pair, and also to show the unique separate error msg we need this object.
-------------------------------------------------------
-2.return Object.keys(newError).length === 0;//define 2.
-Object.key returns the all key in array format of newError object. then count the length, if 0 then true,
-this validate function only return either true or false.
----------------------------------------------------
-3.How error code line adjust to the right place everytime?
-so when i click the submit button then if error occurs , then React re-renders the component, and because each question uses its own q.id, the error is conditionally rendered in the correct position.
-----------------------------------------------------
-|| → treats 0 as false ❌
-?? → only replaces null/undefined ✅
----------------------------------------------------
-here i removed qId from (mcqOption,yesnotog,rating,text) because child components should not care about question IDs. so that -removed qId because child components should not care about question IDs.Separation of concerns
-*/

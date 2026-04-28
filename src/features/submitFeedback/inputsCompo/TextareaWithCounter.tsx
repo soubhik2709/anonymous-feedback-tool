@@ -4,7 +4,7 @@ type TextareaProps = {
   onChange :(value:string)=>void;
 }
 
-export default function TextareaWithCounter({value,onChange}:TextareaProps) {
+export default function Textarea({value,onChange}:TextareaProps) {
   return (
     <div className="w-full">
       <textarea
