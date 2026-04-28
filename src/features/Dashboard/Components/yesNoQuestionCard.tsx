@@ -1,5 +1,5 @@
 import { getYesnoStats } from "../utils/dashboard.logic";
-import { Badge } from "../../../components/ui/Badge";
+import { Badge } from "./Badge";
 
 export const YesNoQuestionCard = ()=>{
     const value = getYesnoStats();

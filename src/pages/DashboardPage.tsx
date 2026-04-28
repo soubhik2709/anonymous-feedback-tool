@@ -3,7 +3,7 @@ import { mockForm } from "../features/Dashboard/constant/dashboard.data";
 import { TextQuestionCard } from "../features/Dashboard/Components/TextQuestionCard";
 import { RatingQuestionCard } from "../features/Dashboard/Components/RatingQuestionCard";
 import { DashboardLayout } from "../components/layout/DashboardLayout";
-import MetricCard from "../components/ui/MetricCard";
+import MetricCard from "../features/Dashboard/Components/MetricCard";
 import { getTotalStats } from "../features/Dashboard/utils/dashboard.logic";
 import { McqQuestionCard } from "../features/Dashboard/Components/McqQuestionCard";
 import { YesNoQuestionCard } from "../features/Dashboard/Components/yesNoQuestionCard";

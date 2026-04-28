@@ -6,7 +6,7 @@ import {
   findMostAnswered,
 } from "../utils/dashboard.logic";
 // import style from "../../../styles/dashboard/RatingQuestionCard.moudle.css";
-import { Badge } from "../../../components/ui/Badge";
+import { Badge } from "./Badge";
 
 type Props = {
   id: string;

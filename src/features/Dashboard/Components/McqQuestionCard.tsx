@@ -1,5 +1,5 @@
 import { getMcqStats } from "../utils/dashboard.logic";
-import { Badge } from "../../../components/ui/Badge";
+import { Badge } from "./Badge";
 
 export const McqQuestionCard = () => {
   const value = getMcqStats();

@@ -3,7 +3,7 @@ import {
   findAnswer,
   findTextAns,
 } from "../utils/dashboard.logic";
-import { Badge } from "../../../components/ui/Badge";
+import { Badge } from "./Badge";
 type Props = {
   id: string;
 };
