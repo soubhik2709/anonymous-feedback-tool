@@ -1,247 +1,124 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef } from "react";
 import Navbar from "../components/layout/Navbar";
+
 import { AnonymousBadge } from "../features/submitFeedback/components/AnonymousBadge";
 import { FeedbackHeader } from "../features/submitFeedback/components/FeedbackHeader";
-import { ProgressBar } from "../features/submitFeedback/components/ProgressBar";
 import { ProgressText } from "../features/submitFeedback/components/ProgressText";
+
+// where the anynomous, feedback , progrestext wiil going to use?
 // -----------------------------------------
-import Textarea from "../features/submitFeedback/inputsCompo/TextareaWithCounter";
-import RatingInput from "../features/submitFeedback/inputsCompo/RatingInput";
-import MCQOptions from "../features/submitFeedback/inputsCompo/MCQOption";
-import YesNoToggle from "../features/submitFeedback/inputsCompo/YesNoToggle";
-// -----------------------
+import { ProgressBar } from "../features/submitFeedback/components/ProgressBar";
+import { QuestionField } from "../features/submitFeedback/components/QuestionField";
+import { useFeedbackForm } from "../features/submitFeedback/hooks/useFeedbackForm";
+import { IQuestion } from "../types/form.types";
+import Button from "../components/ui/Button";
+
 import { mockForm } from "../features/Dashboard/constant/dashboard.data";
 
-type YesNo = "Yes" | "No";
-type AnswerValue = string | number | YesNo | null;
-type Answer = {
-  [qId: string]: AnswerValue;
-};
+// type YesNo = "Yes" | "No";
+// type AnswerValue = string | number | YesNo | null;
+// type Answer = {
+//   [qId: string]: AnswerValue;
+// };
+
+const SuccessState = ({ onReset }: { onReset: () => void }) => (
+  <div className="bg-white p-10 rounded-3xl shadow-xl text-center border border-gray-100">
+    <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+      ✓
+    </div>
+    <h2 className="text-2xl font-bold text-gray-900 mb-2">
+      Feedback submitted!
+    </h2>
+    <p className="text-gray-500 text-sm mb-6">
+      Your response has been recorded anonymously.
+    </p>
+    <button
+      onClick={onReset}
+      className="text-purple-600 font-semibold text-sm hover:underline"
+    >
+      Submit another response
+    </button>
+  </div>
+);
 
 export default function SubmitFeedbackPage() {
-  const [answer, setAnswer] = useState<Answer>(() => {
-    const saved = localStorage.getItem("feedback_answers");
-    return saved ? JSON.parse(saved) : {};
-  });
-  const [error, setError] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(() => {
-    return localStorage.getItem("feedback_submitted") === "true";
-  });
+  const questions = mockForm.questions as IQuestion[];
+  const {
+    answers,
+    errors,
+    isSubmitted,
+    setIsSubmitted,
+    handleUpdateAnswer,
+    validate,
+    resetForm,
+    answeredCount,
+  } = useFeedbackForm(questions);
+
   const questionRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const validate = () => {
-    const newError: Record<string, string> = {}; //why need this obj? 1.
-    mockForm.questions.forEach((q) => {
-      if (q.required) {
-        const value = answer[q.id];
-        if (value === undefined || value === "" || value === null) {
-          newError[q.id] = "This field is required";
-        }
-      }
-    });
-    setError(newError);
-    console.log("The error is", newError);
-    // return Object.keys(newError).length === 0; //define 2.
-    return newError;
-  };
-
-  // progressBar
-  const total = mockForm.questions.length;
-  const answered = mockForm.questions.filter((q) => {
-    const val = answer[q.id];
-    return val !== undefined && val !== "" && val !== null;
-  }).length;
-
-  const percentage = Math.round((answered / total) * 100);
-
-  //handle submit
   const handleSubmit = () => {
-    const isValid = validate();
+    const validationErrors = validate();
+    const firstErrorId = Object.keys(validationErrors)[0];
 
-    if (Object.keys(isValid).length > 0) {
-      const firstErrorId = Object.keys(isValid)[0];
-      if (!firstErrorId) {
-        const firstErrorId = Object.keys(error)[0];
-
-        if (firstErrorId) {
-          questionRefs.current[firstErrorId]?.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-        }
-      }
+    if (firstErrorId) {
+      questionRefs.current[firstErrorId]?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
       return;
     }
-
-    setSubmitted(true);
-    localStorage.setItem("feedback_submitted", "true"); // after form submit, user can not sumbit aggain
-    console.log("The submit Answer si", answer);
+    setIsSubmitted(true);
+    localStorage.setItem("feedback_submitted", "true");
   };
 
-  /* 
- const isFormValid = mockForm.questions.every((q) => {
-    if (!q.required) return true;
+  if (isSubmitted) return <SuccessState onReset={resetForm} />;
+  const percentage = Math.round(
+    (answeredCount / mockForm.questions.length) * 100,
+  );
 
-    const val = answer[q.id];
-    return val !== undefined && val !== "" && val !== null;
-  }); 
-  */
-
-  useEffect(() => {
-    localStorage.setItem("feedback_answers", JSON.stringify(answer));
-  }, [answer]);
-
-  //loading effect
-  useEffect(() => {
-    const saved = localStorage.getItem("feedback_answers");
-    if (saved) {
-      setAnswer(JSON.parse(saved));
-    }
-  }, []);
-
-  const handleNewForm = () => {
-    localStorage.removeItem("feedback_submitted");
-    localStorage.removeItem("feedback_answers");
-
-    setAnswer({});
-    setSubmitted(false);
-    setError({});
-  };
-
-  return submitted ? (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#dfcacaa3]">
-      <div className="bg-white p-6 rounded-xl shadow text-center">
-        <h2 className="text-green-600 text-lg font-semibold">
-          ✅ Thank you for your feedback!
-        </h2>
-      </div>
-
-      <button
-        onClick={handleNewForm}
-        className="mt-4 px-4 py-2 rounded-lg bg-green-600 text-white"
-      >
-        Submit Another Response
-      </button>
-    </div>
-  ) : (
-    <div className="min-h-screen bg-[#dfcacaa3]">
+  return (
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      {/* PageWrapper */}
-      <div className="px-4 py-10 border border-red-500">
-        <div className="max-w-[600px] mx-auto ">
-          <div className="bg-white p-6 rounded-xl shadow">
-            <ProgressBar percentage={percentage} />
+      <div className="max-w-[600px] mx-auto py-10 px-4">
+        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+          <ProgressBar percentage={percentage} />
+
+          <div className="mt-3 mb-6">
             <ProgressText
-              current={answered}
-              total={total}
+              current={answeredCount}
+              total={questions.length}
               percentage={percentage}
             />
+          </div>
+
+          <div className="my-6">
             <AnonymousBadge />
             <FeedbackHeader
               title={mockForm.title}
               description={mockForm.description}
             />
-            {mockForm.questions.map((q) => (
+          </div>
+
+          <div className="space-y-6">
+            {(mockForm.questions as IQuestion[]).map((q) => (
               <div
                 key={q.id}
-                className="mb-5"
                 ref={(el) => {
                   questionRefs.current[q.id] = el;
-                  // console.log("the el is ",el);
                 }}
               >
-                <p>
-                  {q.label} {q.required && "*"}
-                </p>
-
-                {/* Error */}
-                {error[q.id] && (
-                  <p className="text-red-500 text-sm mt-1">{error[q.id]}</p>
-                )}
-
-                {/* TEXT */}
-                {q.type === "text" && (
-                  <Textarea
-                    value={(answer[q.id] as string) || ""}
-                    onChange={(val) => {
-                      setAnswer((prev) => ({
-                        ...prev,
-                        [q.id]: val,
-                      }));
-                      setError((prev) => {
-                        const updated = { ...prev };
-                        delete updated[q.id];
-                        return updated;
-                      });
-                    }}
-                  />
-                )}
-                {/* Rating */}
-                {q.type === "rating" && (
-                  <RatingInput
-                    rating={(answer[q.id] as number) ?? null}
-                    onChange={(val) => {
-                      setAnswer((prev) => ({
-                        ...prev,
-                        [q.id]: val,
-                      }));
-                      setError((prev) => {
-                        const updated = { ...prev };
-                        delete updated[q.id];
-                        return updated;
-                      });
-                    }}
-                  />
-                )}
-
-                {/* MCQ */}
-                {q.type === "multiple_choice" && (
-                  <MCQOptions
-                    options={q.options || []}
-                    value={(answer[q.id] as string) ?? ""}
-                    onSelect={(val) => {
-                      setAnswer((prev) => ({
-                        ...prev,
-                        [q.id]: val,
-                      }));
-
-                      setError((prev) => {
-                        const updated = { ...prev };
-                        delete updated[q.id];
-                        return updated;
-                      });
-                    }}
-                  />
-                )}
-
-                {/* YesNo */}
-                {q.type === "yes_no" && (
-                  <YesNoToggle
-                    value={(answer[q.id] as YesNo) ?? null}
-                    onSelect={(val) => {
-                      setAnswer((prev) => ({
-                        ...prev,
-                        [q.id]: val,
-                      }));
-                      setError((prev) => {
-                        const updated = { ...prev };
-                        delete updated[q.id];
-                        return updated;
-                      });
-                    }}
-                  />
-                )}
+                <QuestionField
+                  q={q}
+                  value={answers[q.id]}
+                  error={errors[q.id]}
+                  onChange={(val) => handleUpdateAnswer(q.id, val)}
+                />
               </div>
             ))}
-            <button
-              className={`mt-6 w-full py-2 rounded-lg text-white 
-                   bg-purple-600`}
-              onClick={handleSubmit}
-              disabled={submitted}
-            >
-              Submit Feedback
-            </button>
           </div>
+          <Button disabled={isSubmitted} onClick={handleSubmit}>
+            Submit Feedback
+          </Button>
         </div>
       </div>
     </div>

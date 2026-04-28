@@ -3,7 +3,6 @@ import React from "react";
 import FormField from "./FormField";
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  value:string;
   onChange:(val:string) => void;
   placeholder?:string;
   label?: string;
@@ -11,13 +10,12 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   required?: boolean;
 };
 
-export default function Input({ value,onChange,placeholder,label,error,required}:InputProps) {
+export default function Input({ onChange,label,error,required,children, ...props}:InputProps) {
    return(
     <FormField label={label} error={error} required={required}>
       <input
-      value={value}
+      {...props}
       onChange={(e)=>onChange(e.target.value)}
-      placeholder={placeholder}
       className={`w-full px-3 py-2 border rounded ${
           error ? "border-red-500" : "border-gray-300"
         }`}
