@@ -5,7 +5,6 @@ import { AnonymousBadge } from "../features/submitFeedback/components/AnonymousB
 import { FeedbackHeader } from "../features/submitFeedback/components/FeedbackHeader";
 import { ProgressText } from "../features/submitFeedback/components/ProgressText";
 
-// where the anynomous, feedback , progrestext wiil going to use?
 // -----------------------------------------
 import { ProgressBar } from "../features/submitFeedback/components/ProgressBar";
 import { QuestionField } from "../features/submitFeedback/components/QuestionField";

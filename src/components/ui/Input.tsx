@@ -2,7 +2,7 @@
 import React from "react";
 import FormField from "./FormField";
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type InputProps =Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
   onChange:(val:string) => void;
   placeholder?:string;
   label?: string;
@@ -40,6 +40,9 @@ export default function Input({ onChange,label,error,required,children, ...props
 why i write here className , and why i write like this ({})
 
 
+what is  this : Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> &
 
 
+      
+is this correct onChange={(e)=>onChange(e.target.value)} or this one is correct: onChange={onChange}
 */

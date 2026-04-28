@@ -1,5 +1,5 @@
 import { IQuestion } from "../../../types/form.types";
-import Input from "../../../components/ui/Input"; 
+// import Input from "../../../components/ui/Input"; 
 import Textarea from "../inputsCompo/TextareaWithCounter";
 import RatingInput from "../inputsCompo/RatingInput";
 import MCQOptions from "../inputsCompo/MCQOption";
@@ -15,6 +15,7 @@ interface props {
 }
 
 export const QuestionField = ({ q, value, error, onChange }: props) => {
+  console.log("the question type is",q.type)
 return (
     <div className="w-full">
       {/* We wrap EVERY question type in a FormField. 
@@ -36,8 +37,9 @@ return (
         )}
 
         {/* Render MCQ list for 'multiple_choice' type */}
-        {q.type === "multiple_choice" && (
+        {q.type === "radio" && (
           <MCQOptions
+          key={q.id}
             options={q.options || []}
             value={value || ""}
             onSelect={onChange}

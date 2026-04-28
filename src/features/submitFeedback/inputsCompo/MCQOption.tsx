@@ -5,11 +5,12 @@ type MCQProps = {
 };
 
 export default function MCQOptions({ options, value, onSelect }: MCQProps) {
+       console.log("the opt",options)
   return (
    <div>
-      {options.map((opt) => (
+      {options.map((opt,index) => (
         <div
-          key={opt}
+          key={index}
           onClick={() => {
             if (value === opt) {
               onSelect(""); // reset
