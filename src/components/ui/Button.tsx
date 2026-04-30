@@ -5,7 +5,7 @@ type ButtonProps = {
   variant?:"primary"|"secondary"|"danger";
   size?:"sm"|"md"|"lg";
   type?: "button" | "submit" | "reset";
-  disabled: boolean;
+  disabled?: boolean;
   loading?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };

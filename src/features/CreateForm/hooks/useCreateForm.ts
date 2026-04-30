@@ -11,9 +11,44 @@ export const useCreateForm = () => {
 
   const [questions, setQuestions] = useState<Question[]>([]);
   //   const [answer, setAnswer] = useState<Answer[]>([]);
+  const [isPublishing, setIsPublishing] = useState(false);
+
+  const publishForm = async ()=>{
+    console.log("The questions is",questions);
+   if(questions.length === 0){
+    alert("Add questions berfor Publishing");
+    return;
+   }
+const hasEmptyQuestion = questions.some((q) => !q.label || q.label.trim() === "");
+  
+  if (hasEmptyQuestion) {
+    alert("One or more questions are empty. Please write your questions correctly.");
+    return;
+  }
+  
+   setIsPublishing(true);
+
+   const finalFormPayload ={
+    ...formDetails,
+    questions,
+    cratedAt:new Date().toISOString(),
+   }
+   try {
+    console.log("Publishing to Backend:", finalFormPayload);
+    
+    // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    alert("Form Published Successfully!");
+  } catch (error) {
+    console.error("Failed to publish", error);
+  } finally {
+    setIsPublishing(false);
+  }
+
+  };
 
   const handleFormChange = (field: string, value: string) => {
-    //why dont i give return type?
     setFormDetails((prev) => ({
       ...prev,
       [field]: value,
@@ -21,6 +56,7 @@ export const useCreateForm = () => {
   };
 
   const addQuestion = (type: QuestionType) => {
+    console.log("Then questions is",questions);
     const newQuestion: Question = {
       id: Date.now(),
       type,
@@ -71,5 +107,7 @@ export const useCreateForm = () => {
     updateQuestionLabel,
     updateOption,
     deleteQuestion,
+    publishForm,
+  isPublishing
   };
 };

@@ -15,7 +15,7 @@ interface props {
 }
 
 export const QuestionField = ({ q, value, error, onChange }: props) => {
-  console.log("the question type is",q.type)
+  // console.log("the question type is",q.type)
 return (
     <div className="w-full">
       {/* We wrap EVERY question type in a FormField. 

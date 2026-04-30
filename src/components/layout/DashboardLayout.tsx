@@ -1,5 +1,5 @@
 // DashboardLayout(wrapper content)
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 import Footer from "./Footer";
 // import style from "../../styles/components/layout/DashboardLayout.module.css";
 export const DashboardLayout = ({
@@ -10,7 +10,7 @@ export const DashboardLayout = ({
   return (
     <div 
   >
-      <Navbar></Navbar>
+     
       <main>{children}</main>
       <Footer></Footer>
     </div>

@@ -1,6 +1,57 @@
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  /* background-color: white; */
+}
+
+body {
+  background-color: #e5e7eb;
+  min-height: 100vh;
+}
+
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+/* Job page is alway center */
+
+.container {
+  background-color: #e2e8f0;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.05);
+}
+
+
+
+/* For Tablets (up to 1024px) */
+@media (min-width: 768px) {
+  .container {
+    width: 90%;
+    /* Leaves a small gap on the sides */
+    padding: 0 20px;
+    /* Internal padding for your content */
+  }
+}
+
+/* For Standard Monitors (Laptops) */
+@media (min-width: 1280px) {
+  .container {
+    width: 80%;
+    /* Page gets narrower relative to screen */
+    max-width: 1200px;
+    /* Page stops growing at 1200px */
+  }
+}
+
+/* For Ultra-wide Monitors */
+@media (min-width: 1920px) {
+  .container {
+    width: 60%;
+    /* Even more grey space on the sides */
+  }
 }
