@@ -17,3 +17,5 @@ export default function SectionBox({ counts, title, text }: sectionProps) {
     </section>
   );
 }
+
+// This section box is use in Home Page.

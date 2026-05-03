@@ -17,11 +17,11 @@ interface props {
 export const QuestionField = ({ q, value, error, onChange }: props) => {
   // console.log("the question type is",q.type)
 return (
-    <div className="w-full">
+    <div className="w-full ">
       {/* We wrap EVERY question type in a FormField. 
         This ensures the label and error message always look the same.
       */}
-      <FormField label={q.label} required={q.required} error={error}>
+      <FormField label={q.label} required={q.required} error={error} >
         
         {/* Render Textarea for 'text' type */}
         {q.type === "text" && (

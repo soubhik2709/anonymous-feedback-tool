@@ -15,7 +15,7 @@ children,
         <div className="mb-5">
 
             {label && (
-                <label className="block mb-1 font-medium text-gray-700">
+                <label className="block mb-2 font-medium text-gray-700">
                     {label} {required && <span className="text-red-500">*</span>}
                 </label>
             )}

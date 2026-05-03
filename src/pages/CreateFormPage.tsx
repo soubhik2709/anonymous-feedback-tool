@@ -3,6 +3,7 @@ import { useCreateForm } from "../features/CreateForm/hooks/useCreateForm";
 import { QuestionEditor } from "../features/CreateForm/components/QuestionEditor";
 import { QuestionField } from "../features/submitFeedback/components/QuestionField"; 
 import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
 
 export default function CreateFormPage() {
   const {
@@ -18,13 +19,13 @@ export default function CreateFormPage() {
   } = useCreateForm();
 
   return (
-    <div className="flex min-h-screen bg-slate-100">
+    <div className="flex min-h-screen bg-slate-200">
       {/* LEFT PANEL: Editor */}
-      <div className="w-1/2 p-8 border-r overflow-y-auto">
-        <h2 className="text-xl font-bold mb-6">Create Form</h2>
+      <div className="w-1/2 min-h-screen flex  flex-col p-8">
+        <h2 className="text-base font-bold p-2">Create Form</h2>
         
         {/* Title and Description */}
-        <div className="space-y-4 mb-10">
+        <div className="space-y-4 mb-10 bg-white p-7 rounded-2xl">
           <Input 
             label="Form Title" 
             value={formDetails.Title} 
@@ -37,8 +38,10 @@ export default function CreateFormPage() {
           />
         </div>
 
-        <div className="mb-6">
-          <h3 className="font-semibold mb-4">Questions</h3>
+
+          <h3 className="font-semibold mb-1">Questions</h3>
+
+        <div className=" p-4 mb-6 overflow-auto max-h-64 flex-1 bg-slate-300 rounded-2xl border-2">
           {questions.map((q) => (
             <QuestionEditor 
               key={q.id}
@@ -50,50 +53,50 @@ export default function CreateFormPage() {
           ))}
         </div>
 
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap  ">
 
-          <button onClick={() => addQuestion("text")} className="px-3 py-1 border rounded-md text-xs hover:bg-gray-50">+ Text</button>
+          <Button size="md" onClick={() => addQuestion("text")}>+ Text</Button>
 
-          <button onClick={() => addQuestion("rating")} className="px-3 py-1 border rounded-md text-xs hover:bg-gray-50">+ Rating</button>
+          <Button size="md" onClick={() => addQuestion("rating")}>+ Rating</Button>
 
-          <button onClick={() => addQuestion("radio")} 
-          className="px-3 py-1 border rounded-md text-xs hover:bg-gray-50">+ MCQ</button>
+          <Button size="md" onClick={() => addQuestion("radio")} >+ MCQ</Button>
 
-          <button onClick={() => addQuestion("yes_no")} className="px-3 py-1 border rounded-md text-xs hover:bg-gray-50">+ YesNo</button>
+          <Button size="md" onClick={() => addQuestion("yes_no")} >+ YesNo</Button>
 
-         <button
+         <Button
          onClick={publishForm}
          disabled={isPublishing}
-         className={` my-1 px-6 py-2 rounded-xl font-semibold text-white transition-all ${
-          isPublishing ? "bg-gray-400 cursor-not-allowed":"bg-purple-600 hover:bg-purple-700 shadow-md shadow-purple-200"
-         }`}
-         
-         >{isPublishing ? "Publishing..." : "Publish Form"}</button>
+        size="sm"         
+         >{isPublishing ? "Publishing..." : "Publish Form"}</Button>
         
 
         </div>
       </div>
 
       {/* RIGHT PANEL: Preview */}
-      <div className="w-1/2 bg-gray-50 p-8 flex justify-center overflow-y-auto">
+      <div className="w-1/2 bg-slate-200 p-8 flex justify-center overflow-y-auto">
         <div className="w-full max-w-[500px]">
           <h2 className="text-xs font-bold text-gray-400 mb-4 uppercase tracking-widest text-center">Live Preview</h2>
-          <div className="bg-white p-8 rounded-3xl shadow-sm border">
-            <h1 className="text-2xl font-bold">{formDetails.Title || "Untitled Form"}</h1>
-            <p className="text-gray-500 mb-8">{formDetails.Description}</p>
-            
-            <div className="space-y-8  ">
+
+          <div className="bg-white p-8 rounded-3xl shadow-sm border text-center">
+            <h1 className="text-2xl font-semibold">{formDetails.Title || "Untitled Form"}</h1>
+            <p className="text-gray-500 mb-8">{formDetails.Description || "Untitled Description"}</p>
+          </div>
+          <p className="text-xs font-bold text-gray-400 mt-4  uppercase tracking-widest text-center ">Question Sets</p>
+          <div className="max-h-96 overflow-auto border  mt-2 p-3 bg-slate-300 rounded-2xl">
               {questions.map((q) => (
-                  <QuestionField
+            <div className="bg-white p-4 rounded-3xl shadow-sm border my-2 ">
+                <QuestionField                  
                   key={q.id} 
                   q={q} 
                   value={null} // In preview, value is always null
                   onChange={() => {}} // In preview, onChange does nothing
                 />
+            </div>
                 
               ))}
-            </div>
-          </div>
+            </div>     
+        
         </div>
       </div>
     </div>
