@@ -37,7 +37,7 @@ return (
         )}
 
         {/* Render MCQ list for 'multiple_choice' type */}
-        {q.type === "radio" && (
+        {q.type === "multiple_choice" && (
           <MCQOptions
           key={q.id}
             options={q.options || []}

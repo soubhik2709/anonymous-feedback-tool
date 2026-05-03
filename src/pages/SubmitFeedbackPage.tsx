@@ -21,7 +21,7 @@ import { mockForm } from "../features/Dashboard/constant/dashboard.data";
 // };
 
 const SuccessState = ({ onReset }: { onReset: () => void }) => (
-  <div className="bg-white p-10 rounded-3xl shadow-xl text-center border border-gray-100">
+  <div className="bg-white p-10 rounded-3xl shadow-xl text-center border border-gray-100 relative top-56 left-96 max-w-96">
     <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
       ✓
     </div>
@@ -33,7 +33,7 @@ const SuccessState = ({ onReset }: { onReset: () => void }) => (
     </p>
     <button
       onClick={onReset}
-      className="text-purple-600 font-semibold text-sm hover:underline"
+      className="text-purple-600 font-bold text-md hover:underline"
     >
       Submit another response
     </button>

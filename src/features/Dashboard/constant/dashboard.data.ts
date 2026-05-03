@@ -34,7 +34,7 @@ export const mockForm = {
       type: "yes_no",
       label: "Would you recommend this session to others?",
       required: false,
-    },
+    },  
   ],
 };
 

@@ -5,7 +5,7 @@ type MCQProps = {
 };
 
 export default function MCQOptions({ options, value, onSelect }: MCQProps) {
-      //  console.log("the opt",options)
+      //  console.log("the opt is",options)
   return (
    <div>
       {options.map((opt,index) => (
