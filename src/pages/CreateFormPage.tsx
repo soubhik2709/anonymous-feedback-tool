@@ -59,7 +59,7 @@ export default function CreateFormPage() {
 
           <Button size="md" onClick={() => addQuestion("rating")}>+ Rating</Button>
 
-          <Button size="md" onClick={() => addQuestion("radio")} >+ MCQ</Button>
+          <Button size="md" onClick={() => addQuestion("multiple_choice")} >+ MCQ</Button>
 
           <Button size="md" onClick={() => addQuestion("yes_no")} >+ YesNo</Button>
 

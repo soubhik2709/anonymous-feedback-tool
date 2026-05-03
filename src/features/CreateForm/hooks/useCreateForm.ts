@@ -14,7 +14,7 @@ export const useCreateForm = () => {
   const [isPublishing, setIsPublishing] = useState(false);
 
   const publishForm = async ()=>{
-    console.log("The questions is",questions);
+    // console.log("The questions is",questions);
    if(questions.length === 0){
     alert("Add questions berfor Publishing");
     return;
@@ -38,8 +38,9 @@ const hasEmptyQuestion = questions.some((q) => !q.label || q.label.trim() === ""
     
     // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
+   
     
-    alert("Form Published Successfully!");
+    // alert("Form Published Successfully!");
   } catch (error) {
     console.error("Failed to publish", error);
   } finally {
@@ -62,7 +63,7 @@ const hasEmptyQuestion = questions.some((q) => !q.label || q.label.trim() === ""
       type,
       label: "",
       options:
-        type === "radio"
+        type === "multiple_choice"
           ? ["", "", "", ""]
           : type === "yes_no"
             ? ["yes", "no"]

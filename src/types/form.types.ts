@@ -1,4 +1,4 @@
-export type QuestionType = "text" | "rating" | "multiple_choice" | "yes_no"|"radio";
+export type QuestionType = "text" | "rating" | "multiple_choice" | "yes_no";
 
 export interface IQuestion {
   id: string | number;

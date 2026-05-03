@@ -33,7 +33,7 @@ export const QuestionEditor = ({
         value={q.label}
         onChange={(val) => onLabelChange(val)}
       />
-      {q.type === "radio" &&
+      {q.type === "multiple_choice" &&
         q.options?.map((opt, i) => (
           <div key={i} className="mt-2 pl-4 border-l-2 border-purple-200">
             <input
