@@ -19,19 +19,22 @@ export default function CreateFormPage() {
   } = useCreateForm();
 
   return (
-    <div className="flex min-h-screen bg-slate-200">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-200">
       {/* LEFT PANEL: Editor */}
-      <div className="w-1/2 min-h-screen flex  flex-col p-8">
-        <h2 className="text-base font-bold p-2">Create Form</h2>
+      <div className="w-full lg:w-1/2 min-h-screen flex flex-col p-8">
+
+        <h2 className="text-xl sm:text-xl lg:text-2xl font-medium sm:font-medium lg:font-semibold text-center sm:text-center lg:text-left mb-2 sm:mb-3 lg:mb-4">Create Form</h2>
         
         {/* Title and Description */}
-        <div className="space-y-4 mb-10 bg-white p-7 rounded-2xl">
+        <div className="mb-4 sm:mb-5 lg:mb-10 bg-white rounded-2xl p-4 sm:p-6 lg:p-7 ">
           <Input 
+           placeholder="enter form title..."
             label="Form Title" 
             value={formDetails.Title} 
             onChange={(val) => handleFormChange("Title", val)} 
           />
           <Input 
+           placeholder="enter your form description..."
             label="Description" 
             value={formDetails.Description} 
             onChange={(val) => handleFormChange("Description", val)} 
@@ -39,7 +42,7 @@ export default function CreateFormPage() {
         </div>
 
 
-          <h3 className="font-semibold mb-1">Questions</h3>
+          <h3 className="text-xl sm:text-xl lg:text-2xl font-medium sm:font-medium lg:font-semibold text-center sm:text-center lg:text-left mb-2 sm:mb-3 lg:mb-4">Questions</h3>
 
         <div className=" p-4 mb-6 overflow-auto max-h-64 flex-1 bg-slate-300 rounded-2xl border-2">
           {questions.map((q) => (
@@ -53,7 +56,7 @@ export default function CreateFormPage() {
           ))}
         </div>
 
-        <div className="flex gap-2 flex-wrap  ">
+        <div className="flex gap-2 flex-wrap mb-2  ">
 
           <Button size="md" onClick={() => addQuestion("text")}>+ Text</Button>
 
@@ -61,28 +64,32 @@ export default function CreateFormPage() {
 
           <Button size="md" onClick={() => addQuestion("multiple_choice")} >+ MCQ</Button>
 
-          <Button size="md" onClick={() => addQuestion("yes_no")} >+ YesNo</Button>
+          <Button size="md"  onClick={() => addQuestion("yes_no")} >+ YesNo</Button>
 
-         <Button
+        </div>
+
+
+                  <Button
+        
          onClick={publishForm}
          disabled={isPublishing}
-        size="sm"         
+        size="lg" 
+        variant="secondary"        
          >{isPublishing ? "Publishing..." : "Publish Form"}</Button>
         
 
-        </div>
       </div>
 
       {/* RIGHT PANEL: Preview */}
-      <div className="w-1/2 bg-slate-200 p-8 flex justify-center overflow-y-auto">
+      <div className="w-full lg:w-1/2 bg-slate-200 p-8 flex justify-center overflow-y-auto">
         <div className="w-full max-w-[500px]">
-          <h2 className="text-xs font-bold text-gray-400 mb-4 uppercase tracking-widest text-center">Live Preview</h2>
+          <h2 className="text-xl lg:text-xs font-bold text-gray-400 mb-4 uppercase tracking-widest text-center ">Live Preview</h2>
 
-          <div className="bg-white p-8 rounded-3xl shadow-sm border text-center">
-            <h1 className="text-2xl font-semibold">{formDetails.Title || "Untitled Form"}</h1>
-            <p className="text-gray-500 mb-8">{formDetails.Description || "Untitled Description"}</p>
+          <div className=" bg-white rounded-3xl shadow-sm border text-center">
+            <h1 className="py-5 sm:py-6 lg:py-8  text-2xl font-semibold">{formDetails.Title || "Untitled Form"}</h1>
+            <p className=" text-gray-500 mb-8">{formDetails.Description || "Untitled Description"}</p>
           </div>
-          <p className="text-xs font-bold text-gray-400 mt-4  uppercase tracking-widest text-center ">Question Sets</p>
+          <p className="text-xl lg:text-xs font-bold text-gray-400 mt-4  uppercase tracking-widest text-center ">Question Sets</p>
           <div className="max-h-96 overflow-auto border  mt-2 p-3 bg-slate-300 rounded-2xl">
               {questions.map((q) => (
             <div className="bg-white p-4 rounded-3xl shadow-sm border my-2 ">
@@ -96,9 +103,11 @@ export default function CreateFormPage() {
                 
               ))}
             </div>     
-        
+
         </div>
+        
       </div>
+      
     </div>
   );
 }

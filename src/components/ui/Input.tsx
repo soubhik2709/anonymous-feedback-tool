@@ -16,7 +16,7 @@ export default function Input({ onChange,label,error,required,children, ...props
       <input
       {...props}
       onChange={(e)=>onChange(e.target.value)}
-      className={`w-full px-3 py-2 border rounded ${
+      className={` outline-none focus:border-blue-400 w-full px-3 py-4 text-lg sm:px-3 sm:py-2 border rounded ${
           error ? "border-red-500" : "border-gray-300"
         }`}
       />

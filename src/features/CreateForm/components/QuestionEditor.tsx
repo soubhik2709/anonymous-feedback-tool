@@ -23,7 +23,7 @@ export const QuestionEditor = ({
         </span>
         <button
           onClick={onDelete}
-          className="text-red-400 opacity-0 group-hover:opacity-100 transition-all text-xs"
+          className="text-red-400 opacity-0 group-hover:opacity-100 transition-all text-lg sm:text-xs"
         >
           Delete
         </button>
@@ -37,7 +37,7 @@ export const QuestionEditor = ({
         q.options?.map((opt, i) => (
           <div key={i} className="mt-2 pl-4 border-l-2 border-purple-200">
             <input
-              className="w-full text-sm p-1 border-b focus:border-purple-500 outline-none"
+              className="w-full text-base  md:text-sm  p-3 md:p-1 border-b focus:border-purple-500 outline-none"
               value={opt}
               placeholder={`Option ${i + 1}`}
               onChange={(e) => onOptionChange(i, e.target.value)}
