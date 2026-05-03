@@ -21,8 +21,7 @@ export const McqQuestionCard = () => {
 ] */
 
 return (
-  <div style={{ background: "#d0d2f2", padding: "20px" }}>
-    <Badge type="mcq">Multiple_choice</Badge>
+  <div className="p-5 rounded-lg bg-[#c0c4fb] m-2">
 
     {value.map((q) => {
       const entries = Object.entries(q.bucket);
@@ -39,9 +38,15 @@ return (
       );
 
       return (
-        <div key={q.questionId} style={{ marginTop: "20px" }}>
-          <h4>{q.label}</h4>
+<>
+            <div className="flex justify-between">
+       <Badge type="mcq">Multiple_choice</Badge>
           <span>{q.total} answers</span>
+    </div>
+        <div key={q.questionId} style={{ marginTop: "20px" }}>
+
+          
+          <h4>{q.label}</h4>
 
           {/* VERTICAL BAR CHART */}
           <div
@@ -105,6 +110,7 @@ return (
             })}
           </div>
         </div>
+</>
       );
     })}
   </div>

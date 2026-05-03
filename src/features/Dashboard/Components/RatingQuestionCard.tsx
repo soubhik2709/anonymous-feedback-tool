@@ -30,7 +30,7 @@ export const RatingQuestionCard = ({ id }: Props) => {
   //   console.log("the totaleVote is", totaleVotes);
 
   return (
-    <div style={{background:"#d0e4f2", padding:"20px"}}>
+    <div className="p-5 bg-[#d0e4f2] m-2 rounded-lg">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Badge type="rating">Rating 1-5</Badge>
         <span style={{ color: "#494242" }}>{totaleVotes} answers</span>

@@ -15,9 +15,11 @@ export const TextQuestionCard = ({ id }: Props) => {
 
 
   return (
-    <div style={{ background: "#cfefb3", padding: "20px" }}>
-      <Badge type="text">Text</Badge>
-      <h5>Ans:{value.length}</h5>
+    <div className="p-5 bg-[#cfefb3] m-2 rounded-md">
+   <div className="flex justify-between">
+        <Badge type="text">Text</Badge>
+      <span className="text">{value.length} answers</span>
+   </div>
       <h3>{label}</h3>
       <ul>
         {textAns.map((ans, index) => (

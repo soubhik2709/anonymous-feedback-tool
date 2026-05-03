@@ -9,7 +9,7 @@ export const ActivityChatCard = () => {
 
   return(
 
-    <div className="border border-red-800  rounded-lg w-full h-[320px] flex justify-between gap-1 p-0.5 bg-yellow-100">
+    <div className="border shadow-2xl rounded-lg w-full h-[320px] flex justify-between gap-1 p-0.5 bg-gray-100">
      {data.map((item)=>{
         const height = (item.responseCount /max)*100;
         return(
@@ -17,7 +17,7 @@ export const ActivityChatCard = () => {
      className="h-full flex flex-1 flex-col items-center">
         {/* Bar contianer */}
       <div
-      className="w-full h-full flex justify-center items-end border"
+      className="w-full h-full flex justify-center items-end "
       >
         <div
         className="w-full  bg-blue-500 rounded-t-md  hover:bg-blue-600 transition-all duration-300"

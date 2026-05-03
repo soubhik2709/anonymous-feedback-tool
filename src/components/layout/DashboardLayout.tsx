@@ -9,6 +9,7 @@ export const DashboardLayout = ({
 }) => {
   return (
     <div 
+    className=""
   >
      
       <main>{children}</main>

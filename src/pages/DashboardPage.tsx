@@ -15,10 +15,10 @@ export default function DashboardPage() {
   const stats = getTotalStats();
   return (
     <DashboardLayout>
-      <h1 className="text-xl">{mockForm.title} summary</h1>
+      <h1 className="text-xl font-semibold m-4">{mockForm.title} </h1>
 
       {/* Metric Card */}
-      <section className="grid grid-cols-5 gap-1">
+      <section className="grid grid-cols-5 gap-1 m-2">
         <MetricCard label="Total Responses" value={stats.totalResponse} />
         <MetricCard
           label="Completion Rate"
@@ -31,7 +31,7 @@ export default function DashboardPage() {
 
       <div className="flex h-[calc(100vh-120px)] gap-2">
         {/* Anwers(LeftSide) */}
-        <section className="p-1 w-1/2 overflow-y-auto bg-[#fff] custom-scrollbar ">
+        <section className="p-3 w-1/2  rounded-lg overflow-y-auto bg-slate-300 custom-scrollbar ">
           {mockForm.questions.map((q) => {
             if (q.type === "text")
               return <TextQuestionCard key={q.id} id={q.id} />;
@@ -46,8 +46,8 @@ export default function DashboardPage() {
         </section>
 
         {/* BackEnd Fetch UI Data(Right Side) */}
-        <section className="flex-1 bg-[#f9fafb] p-2.5 rounded-lg">
-          <div className="flex">
+        <section className="flex-1  p-2.5 rounded-lg">
+          <div className="flex gap-2">
             <PieChart />
             <ActivityChatCard />
           </div>

@@ -27,9 +27,9 @@ const pieData = Object.entries(result).map(([type,count])=>({type,count}))
 
 const COLORS:Record<string,string> ={
   text: "#3b82f6",
-  multiple_choice: "#10b981",
-  rating: "#f59e0b",
-  yes_no: "#ef4444",
+  multiple_choice: "#d97706",
+  rating: "#059669",
+  yes_no: "#dc2626",
 }
 const coloredData = pieData.map(item =>({
     ...item,
@@ -59,7 +59,7 @@ console.log(gradient); //#3b82f6 0deg 90deg,#f59e0b 90deg 180deg,#999 180deg 270
 
   return (
   <div
-  className="border border-orange-900 rounded-lg  p-2 flex flex-row items-center gap-2"
+  className="border shadow-xl bg-gray-100 rounded-lg  p-2 flex flex-row items-center gap-2"
   >
 {/* pie */}
 <div className="flex justify-center"> {/* how to remove extra right side space from here? */}
