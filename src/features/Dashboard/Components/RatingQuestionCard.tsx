@@ -35,7 +35,7 @@ export const RatingQuestionCard = ({ id }: Props) => {
         <Badge type="rating">Rating 1-5</Badge>
         <span style={{ color: "#494242" }}>{totaleVotes} answers</span>
       </div>
-      <h2>{label}</h2>
+      <h2 className="font-semibold text-xl mb-3 ">{label}</h2>
       {/* BAR_CHART */}
       <div>
         {[1, 2, 3, 4, 5].map((item) => {

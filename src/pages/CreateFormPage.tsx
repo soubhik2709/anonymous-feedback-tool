@@ -1,4 +1,3 @@
-
 import { useCreateForm } from "../features/CreateForm/hooks/useCreateForm";
 import { QuestionEditor } from "../features/CreateForm/components/QuestionEditor";
 import { QuestionField } from "../features/submitFeedback/components/QuestionField"; 
@@ -19,7 +18,9 @@ export default function CreateFormPage() {
   } = useCreateForm();
 
   return (
+
     <div className="flex flex-col lg:flex-row min-h-screen bg-slate-200">
+      {/* <div className="w-full h-2 bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 rounded-full mb-4" /> */}
       {/* LEFT PANEL: Editor */}
       <div className="w-full lg:w-1/2 min-h-screen flex flex-col p-8">
 
@@ -109,6 +110,7 @@ export default function CreateFormPage() {
       </div>
       
     </div>
+
   );
 }
 

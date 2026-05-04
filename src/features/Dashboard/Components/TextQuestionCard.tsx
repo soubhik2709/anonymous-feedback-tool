@@ -20,10 +20,10 @@ export const TextQuestionCard = ({ id }: Props) => {
         <Badge type="text">Text</Badge>
       <span className="text">{value.length} answers</span>
    </div>
-      <h3>{label}</h3>
+      <h2 className="font-semibold text-xl mb-3 ">{label}</h2>
       <ul>
         {textAns.map((ans, index) => (
-          <li key={`${index}_${id}`}>{ans}</li>
+          <li className="text-xs py-0.5" key={`${index}_${id}`}>{ans}</li>
         ))}
       </ul>
     </div>

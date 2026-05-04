@@ -46,7 +46,8 @@ return (
         <div key={q.questionId} style={{ marginTop: "20px" }}>
 
           
-          <h4>{q.label}</h4>
+      <h2 className="font-semibold text-xl mb-3">{q.label}</h2>
+          {/* <h4>{q.label}</h4> */}
 
           {/* VERTICAL BAR CHART */}
           <div

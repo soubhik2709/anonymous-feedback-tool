@@ -9,10 +9,9 @@ export const DashboardLayout = ({
 }) => {
   return (
     <div 
-    className=""
-  >
-     
-      <main>{children}</main>
+    className="min-h-screen flex flex-col bg-slate-100 "
+  >   
+      <main className="flex-grow flex flex-col min-h-0">{children}</main>
       <Footer></Footer>
     </div>
   );

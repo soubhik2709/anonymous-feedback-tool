@@ -16,7 +16,7 @@ const points = data.map((item,index)=>{
 console.log("The point is ",points);
 
    return (
-  <div className="m-2 w-4/5  h-[250px] bg-slate-200 relative p-5 border shadow-2xl rounded-sm cursor-pointer">
+  <div className="w-full  sm:w-4/5  m-2  h-[250px] bg-slate-200 relative p-5 border shadow-2xl rounded-sm cursor-pointer">
     
     <svg
       viewBox="0 0 100 100"

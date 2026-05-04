@@ -29,11 +29,11 @@ export const YesNoQuestionCard = () => {
           <>
             <div className="flex justify-between">
               <Badge type="yesno">Yes-No</Badge>
-              <span>{q.total} answers</span>
+              <h2>{q.total} answers</h2>
             </div>
 
             <div key={q.questionId} style={{ marginBottom: "20px" }}>
-              <h4>{q.label}</h4>
+      <h2 className="font-semibold text-xl mb-3 ">{q.label}</h2>
 
               {/* BARCHART */}
               <div
