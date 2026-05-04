@@ -4,8 +4,8 @@ import Button from "../components/ui/Button";
 import SectionBox from "../components/ui/SectionBox";
 export default function Homepage() {
   return (
-    <>
-      <Container>
+<div>
+       <Container>
         <Hero>
           <span className="mb-6 inline-block text-lg font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-full">
             Free No login for responders
@@ -81,6 +81,6 @@ export default function Homepage() {
 
 
       </Container>
-    </>
+</div>
   );
 }

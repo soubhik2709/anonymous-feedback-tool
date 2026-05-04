@@ -64,7 +64,7 @@ console.log(gradient); //#3b82f6 0deg 90deg,#f59e0b 90deg 180deg,#999 180deg 270
 {/* pie */}
 <div className="flex justify-center"> {/* how to remove extra right side space from here? */}
         <div
-    className="w-48 h-48 rounded-full"
+    className="w-40 h-40 rounded-full"
     style={{background:`conic-gradient(${gradient})`}}
     >
 

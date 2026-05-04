@@ -3,6 +3,7 @@ import { QuestionEditor } from "../features/CreateForm/components/QuestionEditor
 import { QuestionField } from "../features/submitFeedback/components/QuestionField"; 
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import LoggedNavbar from "../components/layout/LoggeNavbar";
 
 export default function CreateFormPage() {
   const {
@@ -19,6 +20,8 @@ export default function CreateFormPage() {
 
   return (
 
+<div >
+<LoggedNavbar/>
     <div className="flex flex-col lg:flex-row min-h-screen bg-slate-200">
       {/* <div className="w-full h-2 bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 rounded-full mb-4" /> */}
       {/* LEFT PANEL: Editor */}
@@ -110,6 +113,7 @@ export default function CreateFormPage() {
       </div>
       
     </div>
+</div>
 
   );
 }

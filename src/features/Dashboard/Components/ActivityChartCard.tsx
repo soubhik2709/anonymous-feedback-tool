@@ -9,7 +9,7 @@ export const ActivityChatCard = () => {
 
   return(
 
-    <div className="border shadow-2xl rounded-lg w-full h-[320px] flex justify-between gap-1 p-0.5 bg-gray-100">
+    <div className="border shadow-2xl rounded-lg w-full h-[220px] flex justify-between gap-1 p-0.5 bg-gray-100">
      {data.map((item)=>{
         const height = (item.responseCount /max)*100;
         return(

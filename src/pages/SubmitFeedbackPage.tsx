@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import Navbar from "../components/layout/Navbar";
 
 import { AnonymousBadge } from "../features/submitFeedback/components/AnonymousBadge";
 import { FeedbackHeader } from "../features/submitFeedback/components/FeedbackHeader";
@@ -29,7 +28,7 @@ const SuccessState = ({ onReset }: { onReset: () => void }) => (
         ✓
       </div>
 
-      {/* Content */}
+      {/* Content */}--
       <h2 className="text-2xl font-bold text-gray-900 mb-2">
         Feedback submitted!
       </h2>
@@ -85,7 +84,6 @@ export default function SubmitFeedbackPage() {
 
   return (
     <div className="min-h-screen bg-slate-100  ">
-      <Navbar />
       <div className="max-w-[600px] mx-auto py-10 px-4  ">
         <div className="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200 ">
           <ProgressBar percentage={percentage} />

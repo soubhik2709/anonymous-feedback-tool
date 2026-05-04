@@ -1,6 +1,7 @@
 // DashboardLayout(wrapper content)
 // import Navbar from "./Navbar";
 import Footer from "./Footer";
+import LoggedNavbar from "./LoggeNavbar";
 // import style from "../../styles/components/layout/DashboardLayout.module.css";
 export const DashboardLayout = ({
   children,
@@ -11,6 +12,7 @@ export const DashboardLayout = ({
     <div 
     className="min-h-screen flex flex-col bg-slate-100 "
   >   
+  <LoggedNavbar/>
       <main className="flex-grow flex flex-col min-h-0">{children}</main>
       <Footer></Footer>
     </div>

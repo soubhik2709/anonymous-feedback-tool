@@ -42,10 +42,7 @@ body {
 /* For Standard Monitors (Laptops) */
 @media (min-width: 1280px) {
   .container {
-    width: 80%;
-    /* Page gets narrower relative to screen */
-    max-width: 1200px;
-    /* Page stops growing at 1200px */
+    max-width: 950px;
   }
 }
 
