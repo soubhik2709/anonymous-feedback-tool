@@ -21,22 +21,30 @@ import { mockForm } from "../features/Dashboard/constant/dashboard.data";
 // };
 
 const SuccessState = ({ onReset }: { onReset: () => void }) => (
-  <div className="bg-white p-10 rounded-3xl shadow-xl text-center border border-gray-100 relative top-56 left-96 max-w-96">
-    <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
-      ✓
+<div className="flex items-center justify-center min-h-[60vh] p-4">
+    <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-xl text-center border border-gray-100 w-full max-w-md">
+      
+      {/* Icon */}
+      <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+        ✓
+      </div>
+
+      {/* Content */}
+      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        Feedback submitted!
+      </h2>
+      <p className="text-gray-500 text-sm mb-6">
+        Your response has been recorded anonymously.
+      </p>
+
+      {/* Action */}
+      <button
+        onClick={onReset}
+        className="text-indigo-600 font-bold text-md hover:underline hover:text-indigo-700 transition-colors "
+      >
+        Submit another response
+      </button>
     </div>
-    <h2 className="text-2xl font-bold text-gray-900 mb-2">
-      Feedback submitted!
-    </h2>
-    <p className="text-gray-500 text-sm mb-6">
-      Your response has been recorded anonymously.
-    </p>
-    <button
-      onClick={onReset}
-      className="text-purple-600 font-bold text-md hover:underline"
-    >
-      Submit another response
-    </button>
   </div>
 );
 
@@ -76,10 +84,10 @@ export default function SubmitFeedbackPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-100  ">
       <Navbar />
-      <div className="max-w-[600px] mx-auto py-10 px-4">
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+      <div className="max-w-[600px] mx-auto py-10 px-4  ">
+        <div className="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200 ">
           <ProgressBar percentage={percentage} />
 
           <div className="mt-3 mb-6">

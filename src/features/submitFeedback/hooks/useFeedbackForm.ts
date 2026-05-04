@@ -32,7 +32,10 @@ const handleUpdateAnswer = (id:string | number, value:any)=>{
 const validate = ()=>{
     const newErrors:Record<string,string> ={};
     questions.forEach((q)=>{
-        if(q.required && (answers[q.id] === undefined || answers[q.id] === "" || answers[q.id] === null)){
+    const value = answers[q.id];
+
+        if(q.required && (value === undefined || value.toString().trim() === "" || value=== null)){
+          
             newErrors[q.id] = "This field is required";
         }
     });
