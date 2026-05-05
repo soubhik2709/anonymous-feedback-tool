@@ -15,7 +15,7 @@ export default function DashboardPage() {
   const stats = getTotalStats();
   return (
    <DashboardLayout>
-      <header className="p-2 sm:p-3 pb-0 flex-shrink-0">
+      <header className="p-3 sm:p-3 pb-0 flex-shrink-0">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
           {mockForm.title}
         </h1>
@@ -56,10 +56,10 @@ export default function DashboardPage() {
             <PieChart />
             <ActivityChatCard />
           </div>
-          <div className="flex flex-col sm:flex-row gap-1">
+          {/* <div className="flex flex-col sm:flex-row gap-1"> */}
             <LineChartCard />
             <FormSettingCard />
-          </div>
+          {/* </div> */}
         </section>
       </div>
     </DashboardLayout> 

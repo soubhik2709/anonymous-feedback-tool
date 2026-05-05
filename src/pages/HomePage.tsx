@@ -2,12 +2,35 @@ import Container from "../components/layout/Container";
 import Hero from "../components/layout/Hero";
 import Button from "../components/ui/Button";
 import SectionBox from "../components/ui/SectionBox";
+import { useRef } from "react";
+
+import { useNavigate } from "react-router-dom";
+
 export default function Homepage() {
+  const guideRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
+  
+  const handleLogoClick = ()=>{
+    guideRef.current?.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+     });
+  };
+  const handleGuideClick = ()=>{
+    
+  }
+
+
   return (
-<div>
-       <Container>
+<div  ref={guideRef}>
+       <Container
+       onLogoClick={handleLogoClick}
+        onGuideClick = {handleGuideClick}
+        >
         <Hero>
-          <span className="mb-6 inline-block text-lg font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-full">
+          <span 
+         
+          className="mb-6 inline-block text-lg font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-full">
             Free No login for responders
           </span>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight max-w-2xl">
@@ -19,7 +42,9 @@ export default function Homepage() {
           </p>
 
           <div className="mt-10">
-            <Button variant="primary" size="lg">
+            <Button 
+            onClick={()=>navigate("/create")}
+            variant="primary" size="lg">
               Create Your Feedback Form →
             </Button>
           </div>
@@ -29,7 +54,9 @@ export default function Homepage() {
           </p>
         </Hero>
 
-       <section className="bg-white mt-3 p-7 rounded-lg  min-h-[400px] shadow-md">
+       <section 
+       ref={guideRef}
+       className="bg-white mt-3 p-7 rounded-lg  min-h-[400px] shadow-md">
         <div className="my-5">
           <p className="font-semibold text-xl">How it works</p>
           <p className="font-bold text-2xl ">3 simple steps</p>

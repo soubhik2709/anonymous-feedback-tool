@@ -42,7 +42,7 @@ body {
 /* For Standard Monitors (Laptops) */
 @media (min-width: 1280px) {
   .container {
-    max-width: 950px;
+    max-width: 1100px;
   }
 }
 

@@ -13,7 +13,7 @@ export const DashboardLayout = ({
     className="min-h-screen flex flex-col bg-slate-100 "
   >   
   <LoggedNavbar/>
-      <main className="flex-grow flex flex-col min-h-0">{children}</main>
+      <main className="flex-grow flex flex-col min-h-0 border-2 shadow-2xl">{children}</main>
       <Footer></Footer>
     </div>
   );
